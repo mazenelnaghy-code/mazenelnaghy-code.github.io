@@ -360,14 +360,15 @@ html.is-dialog-open { overflow: hidden; }
   display: flex; align-items: center; gap: 14px;
   max-width: calc(100vw - 32px);
   padding: 12px 16px;
-  background: var(--amber); color: var(--navy);
+  background: var(--navy); color: var(--paper);
+  border: 1px solid var(--amber);
   font-size: 12px; letter-spacing: .05em;
-  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, .5);
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, .55);
   transform: translate(-50%, 18px); opacity: 0;
   transition: opacity .3s, transform .45s var(--ease-out);
 }
 .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
-.toast button { font: inherit; letter-spacing: inherit; text-decoration: underline; text-underline-offset: 3px; color: inherit; }
+.toast button { font: inherit; letter-spacing: inherit; text-decoration: underline; text-underline-offset: 3px; color: var(--amber); }
 
 /* ---------- YOLO mode ---------- */
 .yolo { position: fixed; inset: 0; z-index: var(--z-yolo); pointer-events: none; overflow: hidden; }
