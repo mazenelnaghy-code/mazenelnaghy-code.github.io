@@ -106,7 +106,7 @@
   ME.air.ready = fetchLive()
     .then(function (cities) { return toState(cities, "live"); })
     .catch(function (err) {
-      if (ME.params.get("air") !== "offline") console.warn("[air] live data unavailable, using sample:", err.message);
+      if (ME.params.get("air") !== "offline") console.info("[air] live data unavailable, using sample:", err.message);
       return toState(parseCSV(SAMPLE), "sample");
     })
     .then(function (state) {
