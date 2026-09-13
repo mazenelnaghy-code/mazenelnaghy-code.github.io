@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mazen Elnaghy — AI / Machine Learning Engineer</title>
+<meta name="description" content="Mazen Elnaghy — AI and Machine Learning Engineer in Port Said, Egypt. Computer vision on edge devices, YOLO object detection, data pipelines, Python and C++.">
+<meta name="author" content="Mazen Elnaghy">
+<meta name="theme-color" content="#0A1120">
+<link rel="canonical" href="https://mazenelnaghy-code.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mazenelnaghy-code.github.io/">
+<meta property="og:title" content="Mazen Elnaghy — AI / Machine Learning Engineer">
+<meta property="og:description" content="Computer vision on edge devices. YOLO, Raspberry Pi, data pipelines, Python, C++. Port Said, Egypt.">
+<meta property="og:image" content="https://mazenelnaghy-code.github.io/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<script>
+  /* before first paint: theme, js flag, and whether the boot intro should cover the page */
+  (function () {
+    var d = document.documentElement, q = location.search, booted = false, theme = null;
+    d.classList.add("js");
+    try { theme = localStorage.getItem("me.theme"); booted = localStorage.getItem("me.booted") === "1"; } catch (e) {}
+    if (theme === "light" || theme === "dark") d.setAttribute("data-theme", theme);
+    var reduce = /[?&]reduced\b/.test(q) || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (/[?&]boot\b/.test(q) || (!booted && !reduce && !/[?&]noboot\b/.test(q) && !/^#\/projects\//.test(location.hash))) d.classList.add("boot-pending");
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<script defer src="js/core.js"></script>
+<script defer src="js/air.js"></script>
+<script defer src="js/field.js"></script>
+<script defer src="js/hud.js"></script>
+<script defer src="js/hero.js"></script>
+<script defer src="js/demos.js"></script>
+<script defer src="js/projects.js"></script>
+<script defer src="js/sections.js"></script>
+<script defer src="js/contact.js"></script>
+<script defer src="js/boot.js"></script>
+<script defer src="js/yolo.js"></script>
+<script defer src="js/main.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ═════════ SVG library: logo mark, duotone filter, icons ═════════ -->
+<svg class="svg-lib" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark" viewBox="0 24 256 208">
+      <path fill="currentColor" fill-rule="evenodd" d="M80.4 26.5L87.5 26.1L107.5 27.3L117.5 29.1L128.5 32.3L135.5 35.2L145.5 41.4L155.7 51.5L159.6 57.5L163.8 66.5L166.8 76.5L169.0 93.5L169.4 178.5L168.5 179.1L72.5 179.2L69.5 179.4L61.5 181.2L55.5 184.3L50.5 188.6L47.4 192.5L44.4 198.5L41.9 208.5L41.1 215.5L41.2 228.5L40.5 229.1L1.5 229.1L0.6 228.5L0.7 211.5L2.3 200.5L6.0 187.5L9.2 180.5L14.1 172.5L18.1 167.5L26.1 159.5L23.2 138.5L22.1 122.5L22.0 92.5L24.3 66.5L27.3 48.5L30.2 35.5L31.5 34.1L37.5 32.2L51.5 29.1L64.5 27.3ZM82.0 61.5L88.5 61.3L99.5 62.1L106.5 63.2L110.5 64.4L117.5 68.0L123.5 74.5L126.8 82.5L128.9 96.5L129.0 142.5L128.5 143.9L75.5 143.9L65.5 144.4L64.6 143.5L62.6 118.5L62.6 97.5L63.2 84.5L65.7 63.5L66.5 62.8L71.5 62.1Z"/>
+      <circle cx="235.2" cy="147.7" r="20.7" fill="var(--mark-dot, #FFC42E)"/>
+    </symbol>
+    <symbol id="glyph" viewBox="0 24 172 208">
+      <path fill="currentColor" fill-rule="evenodd" d="M80.4 26.5L87.5 26.1L107.5 27.3L117.5 29.1L128.5 32.3L135.5 35.2L145.5 41.4L155.7 51.5L159.6 57.5L163.8 66.5L166.8 76.5L169.0 93.5L169.4 178.5L168.5 179.1L72.5 179.2L69.5 179.4L61.5 181.2L55.5 184.3L50.5 188.6L47.4 192.5L44.4 198.5L41.9 208.5L41.1 215.5L41.2 228.5L40.5 229.1L1.5 229.1L0.6 228.5L0.7 211.5L2.3 200.5L6.0 187.5L9.2 180.5L14.1 172.5L18.1 167.5L26.1 159.5L23.2 138.5L22.1 122.5L22.0 92.5L24.3 66.5L27.3 48.5L30.2 35.5L31.5 34.1L37.5 32.2L51.5 29.1L64.5 27.3ZM82.0 61.5L88.5 61.3L99.5 62.1L106.5 63.2L110.5 64.4L117.5 68.0L123.5 74.5L126.8 82.5L128.9 96.5L129.0 142.5L128.5 143.9L75.5 143.9L65.5 144.4L64.6 143.5L62.6 118.5L62.6 97.5L63.2 84.5L65.7 63.5L66.5 62.8L71.5 62.1Z"/>
+    </symbol>
+
+    <!-- navy → slate → paper duotone for the portrait -->
+    <filter id="duo" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="1.22" intercept="-0.1"/>
+        <feFuncG type="linear" slope="1.22" intercept="-0.1"/>
+        <feFuncB type="linear" slope="1.22" intercept="-0.1"/>
+      </feComponentTransfer>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0.024 0.078 0.204 0.957"/>
+        <feFuncG type="table" tableValues="0.043 0.129 0.275 0.957"/>
+        <feFuncB type="table" tableValues="0.086 0.239 0.420 0.949"/>
+      </feComponentTransfer>
+    </filter>
+
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-arrow-out" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6Z"/><path d="M2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h11"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M6.3 6.3a8 8 0 1 0 11.4 0"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+    <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 8V3h5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></symbol>
+  </defs>
+</svg>
+
+<!-- ═════════ ambient layers ═════════ -->
+<canvas id="field" class="field" aria-hidden="true"></canvas>
+<div class="viewfinder" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<!-- ═════════ BOOT: power on the edge device ═════════ -->
+<div id="boot" class="boot" role="dialog" aria-modal="true" aria-labelledby="boot-title" hidden>
+  <div class="boot-top">
+    <svg class="boot-mark" aria-hidden="true"><use href="#mark"/></svg>
+    <p class="boot-id mono">edge-01 · port said · <span id="boot-clock">--:--</span></p>
+    <button class="boot-skip" id="boot-skip" type="button">Skip intro<svg class="ico" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+  </div>
+
+  <div class="boot-stage">
+    <div class="boot-copy">
+      <p class="boot-kicker mono"><span class="boot-led-mini" aria-hidden="true"></span> device offline</p>
+      <h2 class="boot-title" id="boot-title">Power on the detector<span class="brand-dot" aria-hidden="true"></span></h2>
+      <p class="boot-text">This portfolio runs like one of my edge deployments. Plug the cable into the board to boot it.</p>
+      <div class="term" id="boot-term" aria-live="polite">
+        <p class="term-line">edge-01 login: <span class="term-caret" aria-hidden="true"></span></p>
+      </div>
+    </div>
+
+    <div class="board-wrap">
+      <svg class="board" id="board" viewBox="0 0 640 470" role="img" aria-label="A single-board computer with a camera module and an unplugged USB-C power cable">
+        <defs>
+          <pattern id="pcb" width="14" height="14" patternUnits="userSpaceOnUse">
+            <circle cx="7" cy="7" r=".9" fill="currentColor" opacity=".16"/>
+          </pattern>
+        </defs>
+        <!-- camera module + ribbon -->
+        <path class="b-ribbon" d="M430 118 C 452 70, 500 58, 520 40"/>
+        <g class="b-cam" id="b-cam">
+          <rect x="484" y="-8" width="116" height="92" rx="6"/>
+          <circle class="b-lens-ring" cx="542" cy="38" r="30"/>
+          <circle class="b-lens" id="b-lens" cx="542" cy="38" r="18"/>
+          <circle class="b-lens-glint" cx="535" cy="31" r="4"/>
+          <circle class="b-hole" cx="496" cy="4" r="3.5"/><circle class="b-hole" cx="588" cy="4" r="3.5"/>
+        </g>
+        <!-- board -->
+        <g class="b-board">
+          <rect class="b-pcb" x="40" y="110" width="500" height="300" rx="16"/>
+          <rect class="b-pcb-dots" x="40" y="110" width="500" height="300" rx="16" fill="url(#pcb)"/>
+          <circle class="b-hole" cx="66" cy="136" r="7"/><circle class="b-hole" cx="514" cy="136" r="7"/>
+          <circle class="b-hole" cx="66" cy="384" r="7"/><circle class="b-hole" cx="514" cy="384" r="7"/>
+          <!-- GPIO header 2x20 -->
+          <g class="b-gpio" id="b-gpio"></g>
+          <!-- SoC with the mark -->
+          <rect class="b-chip" x="196" y="200" width="112" height="112" rx="6"/>
+          <svg x="222" y="228" width="60" height="56" class="b-chip-mark"><use href="#mark"/></svg>
+          <rect class="b-chip b-chip-sm" x="330" y="214" width="62" height="40" rx="4"/>
+          <rect class="b-chip b-chip-sm" x="330" y="266" width="62" height="40" rx="4"/>
+          <!-- ports -->
+          <rect class="b-port" x="468" y="176" width="86" height="54" rx="3"/>
+          <rect class="b-port" x="468" y="244" width="86" height="54" rx="3"/>
+          <rect class="b-port" x="468" y="312" width="86" height="62" rx="3"/>
+          <rect class="b-port" x="178" y="388" width="44" height="30" rx="3"/>
+          <rect class="b-port" x="240" y="388" width="44" height="30" rx="3"/>
+          <rect class="b-csi" x="404" y="120" width="52" height="14" rx="2"/>
+          <text class="b-silk" x="64" y="398">EDGE-01 · 5V 3A</text>
+          <text class="b-silk" x="330" y="330">YOLO-READY</text>
+          <!-- LEDs -->
+          <circle class="b-led b-led-pwr" id="led-pwr" cx="100" cy="376" r="6"/>
+          <circle class="b-led b-led-act" id="led-act" cx="124" cy="376" r="6"/>
+          <text class="b-silk" x="90" y="360">PWR ACT</text>
+        </g>
+        <!-- USB-C power port on the left edge -->
+        <g class="b-usbc">
+          <circle class="b-port-ring" id="port-ring" cx="36" cy="288" r="26"/>
+          <rect class="b-port b-port-c" id="port" x="26" y="274" width="30" height="28" rx="8"/>
+          <rect class="b-port-slot" x="34" y="283" width="14" height="10" rx="4"/>
+        </g>
+        <!-- cable + draggable plug -->
+        <path class="b-cable" id="cable" d="M-60 470 C -20 430, 0 420, -10 400"/>
+        <g class="b-plug" id="plug" tabindex="0" role="button" aria-label="Plug the power cable into the board">
+          <rect class="b-plug-hit" x="-44" y="-30" width="88" height="60" rx="12"/>
+          <rect class="b-plug-body" x="-30" y="-15" width="44" height="30" rx="8"/>
+          <rect class="b-plug-tip" x="12" y="-8" width="22" height="16" rx="5"/>
+          <path class="b-plug-grip" d="M-20 -7v14M-12 -7v14M-4 -7v14"/>
+        </g>
+      </svg>
+      <p class="boot-hint mono" id="boot-hint">Drag the cable into the port · or press <kbd>Enter</kbd></p>
+    </div>
+  </div>
+
+  <div class="boot-mark-big" id="boot-mark-big" aria-hidden="true">
+    <svg class="bmb-glyph" viewBox="0 24 256 208"><use href="#glyph" width="172" height="208" x="0" y="24"/></svg>
+    <span class="bmb-dot" id="bmb-dot"></span>
+  </div>
+</div>
+
+<!-- ═════════ TOP BAR ═════════ -->
+<header class="topbar" id="topbar">
+  <a class="brand" href="#top" aria-label="Mazen Elnaghy, back to top">
+    <svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg>
+    <span class="brand-name">Mazen Elnaghy</span>
+  </a>
+
+  <nav class="nav" aria-label="Sections">
+    <a href="#about" data-nav="about"><span class="nav-i">01</span>About</a>
+    <a href="#projects" data-nav="projects"><span class="nav-i">02</span>Projects</a>
+    <a href="#resume" data-nav="resume"><span class="nav-i">03</span>Resume</a>
+    <a href="#skills" data-nav="skills"><span class="nav-i">04</span>Skills</a>
+    <a href="#writing" data-nav="writing"><span class="nav-i">05</span>Writing</a>
+    <a href="#contact" data-nav="contact"><span class="nav-i">06</span>Contact</a>
+  </nav>
+
+  <div class="topbar-tools">
+    <a class="airchip" id="airchip" href="https://mazenelnaghy-code.github.io/egypt-air-quality/" target="_blank" rel="noopener" title="Live reading from my Egypt air-quality pipeline — the background particles follow it">
+      <span class="airchip-dot" aria-hidden="true"></span>
+      <span class="airchip-live">Live</span>
+      <span class="airchip-city">Port Said</span>
+      <span class="airchip-val"><span class="airchip-k">PM2.5</span> <b data-air="pm25">16.5</b></span>
+      <span class="airchip-val"><span class="airchip-k">AQI</span> <b data-air="aqi">61</b></span>
+      <span class="sr-only">(opens the air-quality dashboard)</span>
+    </a>
+    <button class="iconbtn" id="theme-toggle" type="button" aria-label="Switch to light theme">
+      <svg class="ico ico-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+      <svg class="ico ico-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+    </button>
+    <button class="iconbtn menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ═════════ MOBILE MENU ═════════ -->
+<div class="menu" id="menu" hidden>
+  <nav class="menu-nav" aria-label="Menu">
+    <a href="#about"><span>01</span>About</a>
+    <a href="#projects"><span>02</span>Projects</a>
+    <a href="#resume"><span>03</span>Resume</a>
+    <a href="#skills"><span>04</span>Skills</a>
+    <a href="#writing"><span>05</span>Writing</a>
+    <a href="#contact"><span>06</span>Contact</a>
+  </nav>
+  <div class="menu-foot">
+    <p class="menu-air mono"><span class="airchip-dot" aria-hidden="true"></span> Port Said · PM2.5 <b data-air="pm25">16.5</b> · AQI <b data-air="aqi">61</b> <span data-air="category">Moderate</span></p>
+    <a class="btn btn-amber" href="assets/Mazen_Elnaghy_CV.pdf" download>Download CV<svg class="ico" aria-hidden="true"><use href="#i-download"/></svg></a>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ═════════ HERO ═════════ -->
+  <section class="hero" id="top" aria-labelledby="hero-name">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="hud-line mono"><span class="rec-dot" aria-hidden="true"></span>Frame 0001<span class="hud-sep" aria-hidden="true">/</span>subject detected in Port Said</p>
+        <h1 class="hero-name" id="hero-name">
+          <span class="hero-line">Mazen</span>
+          <span class="hero-line">Elnaghy<span class="brand-dot" aria-hidden="true"></span></span>
+        </h1>
+        <p class="hero-roles mono"><span>AI Engineer</span><span>Data Scientist</span><span>Data Engineer</span></p>
+        <p class="hero-lead">I build AI systems that work <em>outside the lab</em>.</p>
+        <div class="hero-cta">
+          <a class="btn btn-amber" href="#projects">View detections<svg class="ico" aria-hidden="true"><use href="#i-arrow-down"/></svg></a>
+          <a class="btn btn-line" href="assets/Mazen_Elnaghy_CV.pdf" download>Download CV<svg class="ico" aria-hidden="true"><use href="#i-download"/></svg></a>
+        </div>
+        <dl class="stats">
+          <div class="stat"><dt>GPA</dt><dd>3.95<small>/ 4.0</small></dd></div>
+          <div class="stat"><dt>Department rank</dt><dd>#1<small>2024 / 25</small></dd></div>
+          <div class="stat"><dt>Projects shipped</dt><dd>4<small>1 awarded</small></dd></div>
+          <div class="stat"><dt>Cities monitored</dt><dd>8<small class="stat-live"><i aria-hidden="true"></i>live</small></dd></div>
+        </dl>
+      </div>
+
+      <figure class="hero-portrait" id="portrait">
+        <div class="panel" id="panel">
+          <span class="panel-grid" aria-hidden="true"></span>
+          <span class="panel-cross" aria-hidden="true"></span>
+          <img class="portrait-img portrait-duo" src="assets/img/portrait.webp" width="1000" height="1173" alt="Mazen Elnaghy smiling, in a black polo shirt" fetchpriority="high">
+          <img class="portrait-img portrait-true" src="assets/img/portrait.webp" width="1000" height="1173" alt="" aria-hidden="true">
+          <div class="lock" id="lock" aria-hidden="true">
+            <span class="lock-tag mono"><b>mazen_elnaghy</b><span id="lock-conf">0.99</span></span>
+            <span class="lock-xy mono" id="lock-xy">x 215 · y 50 · w 565 · h 770</span>
+          </div>
+          <span class="panel-label mono" aria-hidden="true">cam 01 · 31.27°N 32.30°E</span>
+        </div>
+        <figcaption class="sr-only">Portrait of Mazen Elnaghy</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ═════════ 01 ABOUT ═════════ -->
+  <section class="sec" id="about" aria-labelledby="about-title">
+    <div class="wrap sec-grid">
+      <header class="sec-head">
+        <p class="sec-idx mono"><span>01</span>Who I am</p>
+        <h2 class="sec-title det" id="about-title" data-tag="about · 0.98">About<span class="brand-dot" aria-hidden="true"></span></h2>
+      </header>
+      <div class="sec-body">
+        <p class="pull">Most machine learning looks impressive on clean data and falls apart the moment it meets a real camera in a real room.</p>
+        <div class="prose">
+          <p>The part I care about is that gap. I train computer vision models and get them running on small, cheap hardware — a Raspberry Pi in a yard, not a GPU cluster in a data centre.</p>
+          <p>I study AI Engineering at East Port Said National University, where I <strong>ranked first in my department</strong> with a <strong>3.95 / 4.0 GPA</strong>. Alongside that I work in Python and C++, and I'm completing the Data Engineering track at the Digital Egypt Pioneers Initiative — because a model is only ever as good as the data behind it.</p>
+          <p>That side of the work is not just coursework. I run a production data pipeline that collects air quality readings across Egypt every six hours, tests itself before publishing, and serves the results as an open dataset anyone can use.</p>
+        </div>
+
+        <h3 class="kicker mono">What I do</h3>
+        <div class="tiles">
+          <article class="tile det" data-tag="computer_vision · 0.97">
+            <svg class="ico tile-ico" aria-hidden="true"><use href="#i-camera"/></svg>
+            <h4>Computer Vision</h4>
+            <p>Object detection and tracking with YOLO and OpenCV, from dataset annotation through to a tuned, deployed model.</p>
+          </article>
+          <article class="tile det" data-tag="edge_ai · 0.95">
+            <svg class="ico tile-ico" aria-hidden="true"><use href="#i-chip"/></svg>
+            <h4>Edge AI</h4>
+            <p>Getting models to run in real time on a Raspberry Pi, where every millisecond and every megabyte counts.</p>
+          </article>
+          <article class="tile det" data-tag="data_engineering · 0.93">
+            <svg class="ico tile-ico" aria-hidden="true"><use href="#i-db"/></svg>
+            <h4>Data Engineering</h4>
+            <p>SQL, ETL pipelines, and database design. Turning messy raw data into something a model can actually learn from.</p>
+          </article>
+          <article class="tile det" data-tag="interfaces · 0.91">
+            <svg class="ico tile-ico" aria-hidden="true"><use href="#i-code"/></svg>
+            <h4>Software &amp; Interfaces</h4>
+            <p>Python and C++ development, plus clean UI/UX so the systems I build are usable by the people who need them.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ 02 PROJECTS ═════════ -->
+  <section class="sec" id="projects" aria-labelledby="projects-title">
+    <div class="wrap">
+      <header class="sec-head sec-head-row">
+        <p class="sec-idx mono"><span>02</span>Things I built</p>
+        <h2 class="sec-title det" id="projects-title" data-tag="projects · 4 found">Projects<span class="brand-dot" aria-hidden="true"></span></h2>
+        <p class="sec-note">Each one runs outside the lab. Open a detection to see how it works — then flip through the rest.</p>
+      </header>
+
+      <div class="proj-grid">
+        <article class="proj det" data-slug="air-quality" data-tag="pipeline · live" aria-labelledby="p1-title">
+          <div class="stage" data-demo="aqi" aria-hidden="true"></div>
+          <div class="proj-body">
+            <p class="proj-meta mono"><span class="live-dot" aria-hidden="true"></span>2026 · Running now</p>
+            <h3 class="proj-title" id="p1-title">Egypt Air Quality Data Warehouse</h3>
+            <p class="proj-sum">Hourly air quality and weather for eight Egyptian cities — modelled in DuckDB and republished every six hours by GitHub Actions, with no server.</p>
+            <ul class="chips" aria-label="Tech stack"><li>Python</li><li>SQL</li><li>DuckDB</li><li>ELT</li><li>Dimensional modelling</li><li>GitHub Actions</li></ul>
+            <button class="proj-open" type="button" aria-haspopup="dialog">Open detection<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></button>
+          </div>
+          <div class="proj-detail" hidden>
+            <p>An automated pipeline that collects hourly air quality and weather for eight Egyptian cities, models them into a star schema in DuckDB, and republishes a public dashboard and open CSV dataset every six hours — orchestrated by GitHub Actions, with no server and no running cost.</p>
+            <p>Twelve data quality assertions run on every build and block publication if any of them fails. Rebuilds are idempotent and byte-reproducible: overlapping API windows get de-duplicated, timestamps are stored in UTC but reported in Egyptian local time, and closed partitions are compressed to cut repository growth roughly tenfold.</p>
+            <p class="proj-links">
+              <a href="https://mazenelnaghy-code.github.io/egypt-air-quality/" target="_blank" rel="noopener">Live dashboard<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></a>
+              <a href="https://github.com/mazenelnaghy-code/egypt-air-quality" target="_blank" rel="noopener">Source on GitHub<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></a>
+            </p>
+          </div>
+        </article>
+
+        <article class="proj det" data-slug="dog-deterrent" data-tag="dog · 0.94" aria-labelledby="p2-title">
+          <div class="stage" data-demo="dog" aria-hidden="true"></div>
+          <div class="proj-body">
+            <p class="proj-meta mono"><span class="award-dot" aria-hidden="true"></span>2026 · Awarded</p>
+            <h3 class="proj-title" id="p2-title">Dog Detection &amp; Deterrent System</h3>
+            <p class="proj-sum">A YOLO model on a Raspberry Pi that spots stray dogs in a live feed and plays a deterrent sound — recognised at the EAST Engineering Expo.</p>
+            <ul class="chips" aria-label="Tech stack"><li>Python</li><li>YOLO</li><li>Raspberry Pi</li><li>OpenCV</li><li>Edge inference</li></ul>
+            <button class="proj-open" type="button" aria-haspopup="dialog">Open detection<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></button>
+          </div>
+          <div class="proj-detail" hidden>
+            <p>A camera system that spots stray dogs in a live feed and plays a deterrent sound to drive them away — built to protect schoolyards and building entrances. A YOLO model runs on a Raspberry Pi in real time, triggering an audio output on detection.</p>
+            <p>Most of the work went into cutting false alarms while staying inside the Pi's compute budget. Recognised as an outstanding engineering project at the EAST Engineering Expo.</p>
+          </div>
+        </article>
+
+        <article class="proj det" data-slug="ball-tracking" data-tag="ball · 0.97" aria-labelledby="p3-title">
+          <div class="stage" data-demo="ball" aria-hidden="true"></div>
+          <div class="proj-body">
+            <p class="proj-meta mono">2025</p>
+            <h3 class="proj-title" id="p3-title">Real-Time Ball Detection &amp; Tracking</h3>
+            <p class="proj-sum">A custom YOLO model that detects and tracks an orange ball in a live camera feed — built end to end, from dataset to inference.</p>
+            <ul class="chips" aria-label="Tech stack"><li>Python</li><li>YOLO</li><li>Ultralytics</li><li>OpenCV</li><li>Annotation</li></ul>
+            <button class="proj-open" type="button" aria-haspopup="dialog">Open detection<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></button>
+          </div>
+          <div class="proj-detail" hidden>
+            <p>A custom YOLO model that detects and tracks an orange ball in a live camera feed. I handled the whole pipeline end to end — collecting and annotating the dataset, training and evaluating the model, then running inference in Python with OpenCV — and tuned it to hold accuracy across changing lighting and backgrounds.</p>
+            <p class="proj-links">
+              <a href="https://github.com/mazenelnaghy-code/orange-ball-detector" target="_blank" rel="noopener">Source on GitHub<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></a>
+            </p>
+          </div>
+        </article>
+
+        <article class="proj det" data-slug="prison-database" data-tag="schema · 1.00" aria-labelledby="p4-title">
+          <div class="stage" data-demo="schema" aria-hidden="true"></div>
+          <div class="proj-body">
+            <p class="proj-meta mono">2025</p>
+            <h3 class="proj-title" id="p4-title">Prison Management Database</h3>
+            <p class="proj-sum">A normalised relational database for inmate records, cells, staff and visit logs — with a role-based web app on top.</p>
+            <ul class="chips" aria-label="Tech stack"><li>SQL</li><li>ER modelling</li><li>Normalisation</li><li>Query design</li><li>Node.js</li><li>Express</li></ul>
+            <button class="proj-open" type="button" aria-haspopup="dialog">Open detection<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></button>
+          </div>
+          <div class="proj-detail" hidden>
+            <p>A relational database handling inmate records, cell assignments, staff, and visit logs. I built the entity-relationship model from the requirements, normalised the schema to remove redundancy, and wrote the SQL behind record retrieval, filtering, and reporting.</p>
+            <p>On top of the same data model I built a role-based web application (Node.js, Express, REST API), with Admin, Guard and Staff permissions enforced server-side on every endpoint.</p>
+            <p class="proj-links">
+              <a href="https://github.com/mazenelnaghy-code/prison-management-system" target="_blank" rel="noopener">Source on GitHub<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></a>
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ 03 RESUME ═════════ -->
+  <section class="sec" id="resume" aria-labelledby="resume-title">
+    <div class="wrap sec-grid">
+      <header class="sec-head sec-head-sticky">
+        <p class="sec-idx mono"><span>03</span>Background</p>
+        <h2 class="sec-title det" id="resume-title" data-tag="resume · 7 entries">Resume<span class="brand-dot" aria-hidden="true"></span></h2>
+        <p class="sec-note">Experience, education and the recognition along the way.</p>
+        <a class="btn btn-line" href="assets/Mazen_Elnaghy_CV.pdf" download>Download CV<svg class="ico" aria-hidden="true"><use href="#i-download"/></svg></a>
+      </header>
+
+      <div class="rail" id="rail">
+        <div class="rail-line" aria-hidden="true"><i class="rail-fill" id="rail-fill"></i></div>
+
+        <h3 class="rail-group mono">Experience</h3>
+        <article class="rail-item">
+          <span class="rail-node" aria-hidden="true"></span>
+          <p class="rail-when mono">August 2026</p>
+          <h4 class="rail-title">Programming Intern</h4>
+          <p class="rail-where">Suez Canal Authority — Port Said</p>
+          <ul class="rail-list">
+            <li>Developed and debugged applications in Python and C++ within a live engineering environment</li>
+            <li>Designed UI/UX layouts so technical tools were operable by non-technical staff</li>
+            <li>Translated real operational requirements into working software alongside the engineering team</li>
+          </ul>
+        </article>
+        <article class="rail-item">
+          <span class="rail-node" aria-hidden="true"></span>
+          <p class="rail-when mono">June 2026 — February 2027</p>
+          <h4 class="rail-title">Data Engineering Trainee</h4>
+          <p class="rail-where">Digital Egypt Pioneers Initiative (DEPI) — MCIT</p>
+          <ul class="rail-list">
+            <li>SQL, ETL pipelines, data warehousing, and cloud data platforms</li>
+            <li>Building projects that turn raw, unstructured data into analysis-ready datasets</li>
+            <li>Data modelling and normalisation for efficient, scalable schemas</li>
+          </ul>
+        </article>
+
+        <h3 class="rail-group mono">Education</h3>
+        <article class="rail-item">
+          <span class="rail-node" aria-hidden="true"></span>
+          <p class="rail-when mono">2023 — 2028 (expected)</p>
+          <h4 class="rail-title">B.Sc. Artificial Intelligence Engineering</h4>
+          <p class="rail-where">East Port Said National University</p>
+          <ul class="rail-list">
+            <li>GPA 3.95 / 4.0 — ranked 1st in the department, 2024/2025</li>
+            <li>Machine Learning · Deep Learning · Computer Vision · Database Systems</li>
+            <li>Control Systems · Computer Architecture · Signals &amp; Systems · Robotics</li>
+          </ul>
+        </article>
+
+        <h3 class="rail-group mono">Honors &amp; certifications</h3>
+        <article class="rail-item rail-item-sm">
+          <span class="rail-node" aria-hidden="true"></span>
+          <p class="rail-when mono">2025</p>
+          <h4 class="rail-title">1st Rank — AI &amp; Machine Learning Engineering</h4>
+          <p class="rail-where">East Port Said National University</p>
+        </article>
+        <article class="rail-item rail-item-sm">
+          <span class="rail-node" aria-hidden="true"></span>
+          <p class="rail-when mono">2026</p>
+          <h4 class="rail-title">Outstanding Engineering Project</h4>
+          <p class="rail-where">EAST Engineering Expo, Faculty of Engineering</p>
+        </article>
+        <article class="rail-item rail-item-sm">
+          <span class="rail-node" aria-hidden="true"></span>
+          <p class="rail-when mono">2025</p>
+          <h4 class="rail-title">Digitopia — Participant</h4>
+          <p class="rail-where">National digital innovation competition</p>
+        </article>
+        <article class="rail-item rail-item-sm">
+          <span class="rail-node" aria-hidden="true"></span>
+          <p class="rail-when mono">2025 — 2026</p>
+          <h4 class="rail-title">Training programs</h4>
+          <p class="rail-where">NTI Machine Learning · Huawei AI &amp; ICT · Codezilla Python</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ 04 SKILLS ═════════ -->
+  <section class="sec" id="skills" aria-labelledby="skills-title">
+    <div class="wrap sec-grid">
+      <header class="sec-head sec-head-sticky">
+        <p class="sec-idx mono"><span>04</span>Toolkit</p>
+        <h2 class="sec-title det" id="skills-title" data-tag="skills · scored">Skills<span class="brand-dot" aria-hidden="true"></span></h2>
+        <p class="sec-note">Scored the way a detector reports itself — how confident I am working unaided on production code.</p>
+
+        <div class="threshold" id="threshold">
+          <div class="threshold-top">
+            <label class="threshold-label mono" for="conf">Confidence threshold</label>
+            <output class="threshold-out mono" id="conf-out" for="conf">0.50</output>
+          </div>
+          <input class="threshold-range" type="range" id="conf" min="0.5" max="1" step="0.01" value="0.5">
+          <p class="threshold-read mono" id="conf-read"><code>model.predict(skills, conf=<span id="conf-code">0.50</span>)</code> <span aria-hidden="true">→</span> <b id="conf-count">11</b> detections</p>
+        </div>
+      </header>
+
+      <div class="skills" id="skill-list">
+        <div class="sk-group">
+          <h3 class="sk-h mono">Languages</h3>
+          <div class="sk" data-v="0.95"><span class="sk-name">Python</span><span class="sk-val mono">0.95</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.85"><span class="sk-name">SQL</span><span class="sk-val mono">0.85</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.78"><span class="sk-name">C++</span><span class="sk-val mono">0.78</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+        </div>
+        <div class="sk-group">
+          <h3 class="sk-h mono">Machine learning &amp; vision</h3>
+          <div class="sk" data-v="0.92"><span class="sk-name">Object detection (YOLO)</span><span class="sk-val mono">0.92</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.90"><span class="sk-name">OpenCV &amp; image processing</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.86"><span class="sk-name">Deep learning &amp; neural networks</span><span class="sk-val mono">0.86</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.88"><span class="sk-name">Dataset preparation &amp; annotation</span><span class="sk-val mono">0.88</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+        </div>
+        <div class="sk-group">
+          <h3 class="sk-h mono">Edge deployment</h3>
+          <div class="sk" data-v="0.90"><span class="sk-name">Raspberry Pi deployment</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.87"><span class="sk-name">Real-time inference on constrained hardware</span><span class="sk-val mono">0.87</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+        </div>
+        <div class="sk-group">
+          <h3 class="sk-h mono">Languages spoken</h3>
+          <div class="sk" data-v="1.00"><span class="sk-name">Arabic — native</span><span class="sk-val mono">1.00</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.90"><span class="sk-name">English — professional (C1)</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+        </div>
+        <div class="sk-group sk-group-wide">
+          <h3 class="sk-h mono">Also working with</h3>
+          <ul class="chips chips-lg">
+            <li>TensorFlow</li><li>Scikit-learn</li><li>NumPy</li><li>pandas</li><li>ETL pipelines</li><li>Data modelling</li><li>DuckDB</li><li>Data warehousing</li><li>Data quality testing</li><li>NLP</li><li>Large language models</li><li>ROS 2</li><li>Git</li><li>GitHub Actions</li><li>UI/UX design</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ 05 WRITING ═════════ -->
+  <section class="sec" id="writing" aria-labelledby="writing-title">
+    <div class="wrap sec-grid">
+      <header class="sec-head">
+        <p class="sec-idx mono"><span>05</span>Notes from the work</p>
+        <h2 class="sec-title det" id="writing-title" data-tag="writing · 3 logs">Writing<span class="brand-dot" aria-hidden="true"></span></h2>
+        <p class="sec-note">Short notes on things that surprised me while building.</p>
+      </header>
+
+      <div class="notes">
+        <article class="note is-open">
+          <h3 class="note-h">
+            <button class="note-btn" type="button" id="note-1-btn" aria-expanded="true" aria-controls="note-1">
+              <span class="note-idx mono">Log 01</span>
+              <span class="note-title">A Raspberry Pi will run YOLO. It just won't run the one you trained.</span>
+              <span class="note-meta mono">Edge AI · 4 min read</span>
+              <span class="note-ico" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="note-body" id="note-1" role="region" aria-labelledby="note-1-btn">
+            <div class="note-inner"><p>My detection model hit good accuracy on my laptop and then managed about two frames per second on the Pi. The fix wasn't a better model, it was a smaller one — a lighter architecture, reduced input resolution, and dropping the frame rate to something the hardware could actually sustain. Accuracy fell by a few points and the system became usable. That trade is the whole job in edge AI: the best model is the one that finishes in time, not the one with the highest score on paper.</p></div>
+          </div>
+        </article>
+        <article class="note">
+          <h3 class="note-h">
+            <button class="note-btn" type="button" id="note-2-btn" aria-expanded="false" aria-controls="note-2">
+              <span class="note-idx mono">Log 02</span>
+              <span class="note-title">My detector worked perfectly, then someone turned the light on.</span>
+              <span class="note-meta mono">Computer vision · 3 min read</span>
+              <span class="note-ico" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="note-body" id="note-2" role="region" aria-labelledby="note-2-btn">
+            <div class="note-inner"><p>The dog detection system performed well in testing and then started firing at nothing once it was running outdoors. The cause wasn't the model — it was that every training image had been taken in similar light. Moving shadows and evening glare looked like nothing the model had ever seen. Rebuilding the dataset across different times of day fixed more than any amount of retraining on the original images did. Most detection problems are dataset problems wearing a disguise.</p></div>
+          </div>
+        </article>
+        <article class="note">
+          <h3 class="note-h">
+            <button class="note-btn" type="button" id="note-3-btn" aria-expanded="false" aria-controls="note-3">
+              <span class="note-idx mono">Log 03</span>
+              <span class="note-title">Labelling is most of the work, and nobody warns you.</span>
+              <span class="note-meta mono">Datasets · 3 min read</span>
+              <span class="note-ico" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="note-body" id="note-3" role="region" aria-labelledby="note-3-btn">
+            <div class="note-inner"><p>Training takes an afternoon. Drawing a few thousand boxes takes a week, and every inconsistent one teaches the model something wrong. I learned to write the labelling rules down before starting — where exactly the box ends, what to do with a partly hidden object, whether to label something ambiguous at all. Boring, and it does more for final accuracy than any hyperparameter I have ever tuned.</p></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════ 06 CONTACT (amber block) ═════════ -->
+  <section class="sec sec-contact" id="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="contact-copy">
+        <p class="sec-idx mono"><span>06</span>Say hello</p>
+        <h2 class="sec-title det" id="contact-title" data-tag="contact · open">Send a signal<span class="brand-dot" aria-hidden="true"></span></h2>
+        <p class="contact-lead">If you're building something in computer vision, edge AI, or data — or you have a problem you think is a good fit — send me a message. I read everything and reply within a day or two.</p>
+        <p class="contact-status mono"><span class="status-dot" aria-hidden="true"></span>Looking for roles building and deploying ML in production</p>
+        <ul class="direct">
+          <li><a href="mailto:mazen.elnaghy@gmail.com"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg><span class="direct-k mono">Email</span><span class="direct-v">mazen.elnaghy@gmail.com</span></a></li>
+          <li><a href="https://linkedin.com/in/mazen-elnaghy" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-linkedin"/></svg><span class="direct-k mono">LinkedIn</span><span class="direct-v">/in/mazen-elnaghy</span></a></li>
+          <li><a href="https://github.com/mazenelnaghy-code" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-github"/></svg><span class="direct-k mono">GitHub</span><span class="direct-v">mazenelnaghy-code</span></a></li>
+          <li><a href="assets/Mazen_Elnaghy_CV.pdf" download><svg class="ico" aria-hidden="true"><use href="#i-file"/></svg><span class="direct-k mono">CV</span><span class="direct-v">Mazen_Elnaghy_CV.pdf</span></a></li>
+          <li><span class="direct-static"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span class="direct-k mono">Location</span><span class="direct-v">Port Said, Egypt</span></span></li>
+        </ul>
+      </div>
+
+      <div class="signal-card">
+        <p class="signal-top mono"><span>tx · web3forms</span><span id="signal-state">ready</span></p>
+        <form class="form" id="cform" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="c2713829-04e7-44fa-af32-9b4d3f31929d">
+          <input type="hidden" name="subject" value="New message from your portfolio site">
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="frow">
+            <div class="field">
+              <label for="f-name">Your name</label>
+              <input id="f-name" type="text" name="name" placeholder="Jane Doe" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="f-email">Your email</label>
+              <input id="f-email" type="email" name="email" placeholder="jane@company.com" autocomplete="email" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-msg">Message</label>
+            <textarea id="f-msg" name="message" rows="5" placeholder="What are you working on?" required></textarea>
+          </div>
+          <div class="form-foot">
+            <button class="btn btn-amber submit" type="submit"><span class="submit-label">Send message</span><svg class="ico" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+            <p class="formnote mono" id="fnote" role="status" aria-live="polite"></p>
+          </div>
+          <div class="rings" aria-hidden="true"><i></i><i></i><i></i></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ═════════ FOOTER ═════════ -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <svg class="footer-mark" aria-hidden="true"><use href="#mark"/></svg>
+      <div>
+        <p class="footer-name">Mazen Elnaghy</p>
+        <p class="footer-role mono">AI Engineer · Data Scientist · Data Engineer</p>
+      </div>
+    </div>
+    <p class="footer-data">The particles drifting behind this page follow live PM2.5 and wind readings for Port Said, collected by my own <a href="https://mazenelnaghy-code.github.io/egypt-air-quality/" target="_blank" rel="noopener">air-quality pipeline</a>.</p>
+    <div class="footer-actions">
+      <button class="btn btn-line" id="reboot" type="button"><svg class="ico" aria-hidden="true"><use href="#i-power"/></svg>Reboot device</button>
+      <a class="btn btn-line" href="#top">Back to top<svg class="ico" aria-hidden="true"><use href="#i-arrow-up"/></svg></a>
+    </div>
+    <p class="footer-legal mono">© <span id="yr">2026</span> Mazen Elnaghy · Port Said, Egypt <span class="footer-sep" aria-hidden="true">/</span> <button class="yolo-hint" id="yolo-hint" type="button">psst — type “yolo”</button></p>
+  </div>
+</footer>
+
+<!-- ═════════ BOTTOM HUD ═════════ -->
+<div class="hudbar" id="hudbar" aria-hidden="true">
+  <div class="hud-left mono">
+    <span class="rec"><i></i>REC</span>
+    <span id="hud-time">00:00:00</span>
+    <span class="hud-dim" id="hud-frame">F 000000</span>
+  </div>
+  <div class="seek" id="seek">
+    <div class="seek-track"><i class="seek-fill" id="seek-fill"></i><span class="seek-head" id="seek-head"></span></div>
+    <div class="seek-ticks" id="seek-ticks"></div>
+  </div>
+  <div class="hud-right mono">
+    <span id="hud-fps">-- FPS</span>
+    <span class="hud-dim">Port Said</span>
+    <span id="hud-clock">--:--:--</span>
+  </div>
+</div>
+<div class="progress-line" aria-hidden="true"><i id="progress-fill"></i></div>
+
+<!-- ═════════ PROJECT DIALOG ═════════ -->
+<dialog class="pdialog" id="proj-dialog" aria-labelledby="pd-title">
+  <div class="pd-frame" id="pd-frame">
+    <div class="pd-bar">
+      <p class="pd-count mono"><span class="rec-dot" aria-hidden="true"></span>Detection <b id="pd-index">1</b> / <span id="pd-total">4</span></p>
+      <p class="pd-tag mono" id="pd-tag">pipeline · live</p>
+      <div class="pd-nav">
+        <button class="iconbtn" id="pd-prev" type="button" aria-label="Previous project"><svg class="ico" aria-hidden="true"><use href="#i-chev-left"/></svg></button>
+        <button class="iconbtn" id="pd-next" type="button" aria-label="Next project"><svg class="ico" aria-hidden="true"><use href="#i-chev-right"/></svg></button>
+        <button class="iconbtn" id="pd-close" type="button" aria-label="Close project"><svg class="ico" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div class="pd-scroll">
+      <div class="pd-page" id="pd-page">
+        <div class="pd-stage stage" id="pd-stage"></div>
+        <div class="pd-info">
+          <p class="proj-meta mono" id="pd-meta"></p>
+          <h3 class="pd-title" id="pd-title"></h3>
+          <div class="pd-desc" id="pd-desc"></div>
+          <ul class="chips" id="pd-chips" aria-label="Tech stack"></ul>
+        </div>
+      </div>
+    </div>
+    <p class="pd-hint mono" aria-hidden="true"><kbd>←</kbd> <kbd>→</kbd> flip · <kbd>Esc</kbd> close</p>
+  </div>
+</dialog>
+
+<!-- ═════════ YOLO MODE LAYER + TOAST ═════════ -->
+<div class="yolo" id="yolo" aria-hidden="true" hidden></div>
+<div class="toast mono" id="toast" role="status" aria-live="polite" hidden></div>
+
+</body>
+</html>

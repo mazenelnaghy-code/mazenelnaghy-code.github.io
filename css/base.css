@@ -1,0 +1,189 @@
+/* ==========================================================================
+   base.css — reset, type, shared atoms (buttons, chips, brackets, dots)
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--topbar-h) + 8px);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1.7 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  transition: background-color .5s var(--ease-out), color .5s var(--ease-out);
+}
+
+h1, h2, h3, h4 { margin: 0; font-weight: 600; line-height: 1.1; }
+p { margin: 0 0 1em; }
+ul, ol { margin: 0; padding: 0; }
+img, svg, canvas { display: block; max-width: 100%; }
+a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 1px; }
+button, input, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+kbd {
+  font: 500 .85em/1 var(--f-mono);
+  padding: .2em .45em;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+}
+code { font-family: var(--f-mono); }
+
+::selection { background: var(--amber); color: var(--navy); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.mono { font-family: var(--f-mono); }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.skip {
+  position: fixed; left: 16px; top: 12px; z-index: 200;
+  padding: 10px 16px;
+  background: var(--amber); color: var(--navy);
+  font: 500 13px/1 var(--f-mono); text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform .2s;
+}
+.skip:focus { transform: none; }
+
+.svg-lib { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--wrap) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- icons ---------- */
+.ico {
+  width: 18px; height: 18px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ---------- the amber dot (logo full stop) ---------- */
+.brand-dot {
+  display: inline-block;
+  width: .17em; height: .17em;
+  margin-left: .05em;
+  border-radius: 50%;
+  background: var(--amber);
+  vertical-align: baseline;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 50px; padding: 0 24px;
+  border: 1px solid var(--line-strong);
+  font: 500 12px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase;
+  text-decoration: none; white-space: nowrap;
+  color: var(--ink); background: transparent;
+  transition: background-color .25s, color .25s, border-color .25s, transform .35s var(--ease-out);
+}
+.btn .ico { width: 16px; height: 16px; transition: transform .35s var(--ease-out); }
+.btn:hover .ico { transform: translate(3px, 0); }
+.btn:active { transform: translateY(1px); }
+.btn-amber { background: var(--amber); border-color: var(--amber); color: var(--navy); }
+.btn-amber:hover { background: var(--amber-hi); border-color: var(--amber-hi); }
+.btn-line:hover { border-color: var(--accent); color: var(--accent-text); }
+
+.iconbtn {
+  display: inline-grid; place-items: center;
+  width: 42px; height: 42px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  transition: border-color .25s, color .25s, background-color .25s;
+}
+.iconbtn:hover { border-color: var(--accent); color: var(--accent-text); }
+
+/* ---------- chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
+.chips li {
+  font: 500 11px/1 var(--f-mono); letter-spacing: .03em;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+
+/* ---------- detection brackets ----------
+   .det draws four amber corners (::before) and a class-label tag from
+   data-tag (::after). Locked by JS (.is-locked), hover or keyboard focus. */
+.det { position: relative; }
+.det::before {
+  --c: var(--det);
+  --l: var(--det-len, 18px);
+  --t: var(--det-w, 2px);
+  content: "";
+  position: absolute; inset: var(--det-inset, -10px);
+  z-index: 3; pointer-events: none;
+  background:
+    linear-gradient(var(--c) 0 0) 0 0 / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 0 / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 0 / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 0 / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 100% / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 100% / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 100% / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 100% / var(--t) var(--l) no-repeat;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity .2s ease, transform .5s var(--ease-snap);
+}
+.det[data-tag]::after {
+  content: attr(data-tag);
+  position: absolute;
+  left: var(--det-inset, -10px); top: var(--det-inset, -10px);
+  z-index: 4; pointer-events: none;
+  transform: translateY(-100%);
+  padding: 4px 7px 3px;
+  background: var(--amber); color: var(--navy);
+  font: 500 10px/1.2 var(--f-mono); letter-spacing: .05em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .2s ease .15s;
+}
+.det.is-locked::before,
+.det:hover::before,
+.det:focus-within::before { opacity: 1; transform: none; }
+.det.is-locked::after,
+.det:hover::after,
+.det:focus-within::after { opacity: 1; }
+
+/* ---------- live / status dots ---------- */
+.live-dot, .rec-dot, .status-dot, .award-dot {
+  display: inline-block; flex: none;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--amber);
+}
+.live-dot, .rec-dot { animation: blink 1.6s steps(2, jump-none) infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+
+/* ---------- motion preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+  }
+}

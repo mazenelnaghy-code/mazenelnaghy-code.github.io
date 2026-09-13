@@ -1,0 +1,89 @@
+/* ==========================================================================
+   tokens.css — the palette comes straight from Mazen's logo mark:
+   navy glyph #14213D · amber dot #FFC42E · paper #F4F4F2
+   ========================================================================== */
+
+:root {
+  /* brand primitives */
+  --navy: #14213D;
+  --amber: #FFC42E;
+  --paper: #F4F4F2;
+
+  /* night scale (same navy hue, darker → lighter) */
+  --night-0: #060B16;
+  --night-1: #0A1120;
+  --night-2: #0F192E;
+  --night-3: #14213D;
+  --night-4: #22304F;
+  --night-5: #34466B;
+  --mist-1: #A7B1C4;
+  --mist-2: #7D89A3;
+
+  /* amber support */
+  --amber-hi: #FFD563;
+  --amber-lo: #E0A800;
+  --amber-ink: #7A5600;
+  --red: #E5484D;
+
+  /* type */
+  --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  /* layout */
+  --wrap: 1280px;
+  --gutter: clamp(20px, 4.2vw, 60px);
+  --sec-pad: clamp(96px, 13vw, 176px);
+  --topbar-h: 68px;
+  --hudbar-h: 40px;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --ease-snap: cubic-bezier(.2, .9, .25, 1.4);
+
+  /* stacking */
+  --z-field: 0;
+  --z-content: 1;
+  --z-hud: 40;
+  --z-menu: 60;
+  --z-yolo: 70;
+  --z-toast: 80;
+  --z-boot: 100;
+
+  /* ── semantic: dark "night feed" (default) ── */
+  --bg: var(--night-1);
+  --bg-deep: var(--night-0);
+  --surface: var(--night-2);
+  --raised: var(--night-3);
+  --line: var(--night-4);
+  --line-strong: var(--night-5);
+  --ink: var(--paper);
+  --ink-2: var(--mist-1);
+  --ink-3: var(--mist-2);
+  --accent: var(--amber);
+  --accent-text: var(--amber);
+  --on-accent: var(--navy);
+  --det: var(--amber);
+  --field-rgb: 244, 244, 242;
+  --glass: rgba(10, 17, 32, .8);
+  --shadow: 0 30px 80px -20px rgba(0, 0, 0, .6);
+  color-scheme: dark;
+}
+
+/* ── semantic: light "day feed" ── */
+:root[data-theme="light"] {
+  --bg: var(--paper);
+  --bg-deep: #E7E7E1;
+  --surface: #FFFFFF;
+  --raised: #FFFFFF;
+  --line: #D8DDE5;
+  --line-strong: #B3BCCA;
+  --ink: var(--navy);
+  --ink-2: #44506A;
+  --ink-3: #5F6B84;
+  --accent-text: var(--amber-ink);
+  --det: var(--amber-lo);
+  --field-rgb: 20, 33, 61;
+  --glass: rgba(244, 244, 242, .84);
+  --shadow: 0 30px 80px -24px rgba(20, 33, 61, .28);
+  color-scheme: light;
+}
