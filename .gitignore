@@ -1,0 +1,13 @@
+# Inspiration screenshots of other people's sites — local reference only, never published
+/some idias i want something/
+
+# Unprocessed originals and local tooling
+/assets/img/profile-original.jpg
+/tools/
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+node_modules/
