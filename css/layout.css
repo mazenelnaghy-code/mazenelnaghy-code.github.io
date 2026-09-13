@@ -420,7 +420,7 @@ html.is-menu-open { overflow: hidden; }
   transition: transform 1.2s var(--ease-out), background-color .3s;
 }
 .js .skills:not(.is-on) .sk-bar i { transform: scaleX(0); }
-.sk.is-below { opacity: .3; }
+.sk.is-below { opacity: .38; }
 .sk.is-below .sk-bar i { background: var(--ink-3); }
 .chips-lg li { font-size: 12px; padding: 9px 12px; }
 

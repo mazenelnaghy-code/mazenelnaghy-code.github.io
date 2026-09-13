@@ -127,9 +127,10 @@
   }
 
   function drawDetections(dt, focus) {
+    var ceiling = focus.scanner ? 0.5 : 1; // the idle scanner stays quiet behind text
     for (var i = detections.length - 1; i >= 0; i--) {
       var d = detections[i];
-      d.alpha = ME.clamp(d.alpha + (d.want ? dt * 6 : -dt * 4), 0, 1);
+      d.alpha = ME.clamp(d.alpha + (d.want ? dt * 6 : -dt * 4), 0, ceiling);
       if (!d.want && d.alpha <= 0) { detections.splice(i, 1); continue; }
       d.x = ME.lerp(d.x, d.p.x, 0.4);
       d.y = ME.lerp(d.y, d.p.y, 0.4);

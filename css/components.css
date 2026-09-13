@@ -337,6 +337,7 @@ html.is-dialog-open { overflow: hidden; }
 .formnote { margin: 0; font-size: 12px; letter-spacing: .03em; color: var(--mist-1); }
 .formnote.is-ok { color: var(--amber); }
 .formnote.is-err { color: #FF7A7F; }
+.formnote a { color: var(--amber); overflow-wrap: anywhere; }
 .rings { position: absolute; left: 96px; bottom: 25px; width: 0; height: 0; pointer-events: none; }
 .rings i {
   position: absolute; left: -20px; top: -20px;
