@@ -225,6 +225,7 @@
       ME.$$('[data-air="category"]').forEach(function (el) { el.textContent = c.category; });
       var chip = document.getElementById("airchip");
       chip.classList.toggle("is-sample", state.source !== "live");
+      chip.querySelector(".airchip-live").textContent = state.source === "live" ? "Live" : "Sample";
       chip.title = (state.source === "live" ? "Live" : "Saved sample") +
         " reading for Port Said at " + ME.air.timeLocal(c.observedAt) + " Cairo time — PM2.5 " + c.pm25.toFixed(1) +
         " µg/m³, PM10 " + (c.pm10 === null ? "–" : c.pm10.toFixed(1)) + ", US AQI " + Math.round(c.aqi) + " (" + c.category + "), wind " +

@@ -88,7 +88,6 @@ main, .footer { position: relative; z-index: var(--z-content); }
 .airchip-city { color: var(--ink); }
 .airchip-k { color: var(--ink-3); }
 .airchip b { font-weight: 500; color: var(--ink); }
-.airchip.is-sample .airchip-live::after { content: " · sample"; color: var(--ink-3); }
 
 .ico-moon { display: none; }
 :root[data-theme="light"] .ico-sun { display: none; }
@@ -631,6 +630,20 @@ html.is-menu-open { overflow: hidden; }
 .progress-line { display: none; position: fixed; inset: auto 0 0; z-index: var(--z-hud); height: 3px; background: transparent; }
 .progress-line i { display: block; height: 100%; background: var(--amber); transform: scaleX(var(--p, 0)); transform-origin: left; }
 
+/* ---------- without JavaScript: hide controls that need it, keep every word readable ---------- */
+html:not(.js) .hudbar,
+html:not(.js) .viewfinder,
+html:not(.js) .progress-line,
+html:not(.js) .stage,
+html:not(.js) .proj-open,
+html:not(.js) .threshold,
+html:not(.js) #theme-toggle,
+html:not(.js) .menu-toggle,
+html:not(.js) #reboot,
+html:not(.js) .yolo-hint,
+html:not(.js) .footer-sep,
+html:not(.js) .lock { display: none !important; }
+
 /* ==========================================================================
    responsive
    ========================================================================== */
@@ -648,6 +661,9 @@ html.is-menu-open { overflow: hidden; }
   :root { --topbar-h: 60px; --hudbar-h: 0px; }
   .nav, .hudbar, .viewfinder { display: none; }
   .menu-toggle { display: inline-grid; }
+  .topbar-tools { margin-left: auto; }
+  html:not(.js) .topbar { position: absolute; }
+  html:not(.js) .nav { display: flex; order: 3; position: absolute; left: 0; right: 0; top: var(--topbar-h); padding: 0 var(--gutter); overflow-x: auto; }
   .progress-line { display: block; }
   .brand-name { font-size: 11px; letter-spacing: .18em; }
 
