@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No detections · Mazen Elnaghy</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root { --navy: #14213D; --amber: #FFC42E; --paper: #F4F4F2; --night: #0A1120; --mist: #A7B1C4; --dim: #7D89A3; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    display: grid; grid-template-rows: auto 1fr auto;
+    background:
+      linear-gradient(rgba(244, 244, 242, .03) 1px, transparent 1px) 0 0 / 40px 40px,
+      linear-gradient(90deg, rgba(244, 244, 242, .03) 1px, transparent 1px) 0 0 / 40px 40px,
+      var(--night);
+    color: var(--paper);
+    font: 400 17px/1.6 "IBM Plex Sans", system-ui, sans-serif;
+  }
+  a { color: inherit; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  header, footer { padding: 24px clamp(20px, 5vw, 60px); }
+  .mark { display: inline-block; width: 44px; height: 36px; color: var(--paper); }
+  main { display: grid; place-items: center; padding: 20px clamp(20px, 5vw, 60px); }
+  .frame { position: relative; width: min(760px, 100%); padding: clamp(28px, 6vw, 64px); }
+  .frame::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    --c: var(--amber); --l: 26px; --t: 2px;
+    background:
+      linear-gradient(var(--c) 0 0) 0 0 / var(--l) var(--t) no-repeat,
+      linear-gradient(var(--c) 0 0) 0 0 / var(--t) var(--l) no-repeat,
+      linear-gradient(var(--c) 0 0) 100% 0 / var(--l) var(--t) no-repeat,
+      linear-gradient(var(--c) 0 0) 100% 0 / var(--t) var(--l) no-repeat,
+      linear-gradient(var(--c) 0 0) 0 100% / var(--l) var(--t) no-repeat,
+      linear-gradient(var(--c) 0 0) 0 100% / var(--t) var(--l) no-repeat,
+      linear-gradient(var(--c) 0 0) 100% 100% / var(--l) var(--t) no-repeat,
+      linear-gradient(var(--c) 0 0) 100% 100% / var(--t) var(--l) no-repeat;
+  }
+  .tag { position: absolute; left: 0; top: 0; transform: translateY(-100%); padding: 4px 8px 3px; background: var(--amber); color: var(--navy); font-size: 11px; letter-spacing: .06em; }
+  .code {
+    margin: 0 0 6px;
+    color: var(--paper);
+    font: 700 clamp(120px, 26vw, 220px)/.8 "Barlow Condensed", "Arial Narrow", sans-serif;
+    letter-spacing: -.01em;
+  }
+  .dot { display: inline-block; width: .16em; height: .16em; margin-left: .04em; border-radius: 50%; background: var(--amber); }
+  h1 { margin: 18px 0 10px; font: 700 clamp(30px, 5vw, 46px)/1 "Barlow Condensed", "Arial Narrow", sans-serif; text-transform: uppercase; }
+  p { margin: 0 0 22px; color: var(--mist); max-width: 46ch; }
+  .predict { font-size: 13px; color: var(--dim); overflow-wrap: anywhere; }
+  .predict b { color: var(--amber); font-weight: 500; white-space: nowrap; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn {
+    display: inline-flex; align-items: center; min-height: 50px; padding: 0 22px;
+    border: 1px solid #34466B;
+    font: 500 12px/1 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase;
+    text-decoration: none;
+  }
+  .btn-amber { background: var(--amber); border-color: var(--amber); color: var(--navy); }
+  .btn:hover { border-color: var(--amber); }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+  footer { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+</style>
+</head>
+<body>
+  <header>
+    <a href="/" aria-label="Mazen Elnaghy, home">
+      <svg class="mark" viewBox="0 24 256 208" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M80.4 26.5L87.5 26.1L107.5 27.3L117.5 29.1L128.5 32.3L135.5 35.2L145.5 41.4L155.7 51.5L159.6 57.5L163.8 66.5L166.8 76.5L169.0 93.5L169.4 178.5L168.5 179.1L72.5 179.2L69.5 179.4L61.5 181.2L55.5 184.3L50.5 188.6L47.4 192.5L44.4 198.5L41.9 208.5L41.1 215.5L41.2 228.5L40.5 229.1L1.5 229.1L0.6 228.5L0.7 211.5L2.3 200.5L6.0 187.5L9.2 180.5L14.1 172.5L18.1 167.5L26.1 159.5L23.2 138.5L22.1 122.5L22.0 92.5L24.3 66.5L27.3 48.5L30.2 35.5L31.5 34.1L37.5 32.2L51.5 29.1L64.5 27.3ZM82.0 61.5L88.5 61.3L99.5 62.1L106.5 63.2L110.5 64.4L117.5 68.0L123.5 74.5L126.8 82.5L128.9 96.5L129.0 142.5L128.5 143.9L75.5 143.9L65.5 144.4L64.6 143.5L62.6 118.5L62.6 97.5L63.2 84.5L65.7 63.5L66.5 62.8L71.5 62.1Z"/><circle cx="235.2" cy="147.7" r="20.7" fill="#FFC42E"/></svg>
+    </a>
+  </header>
+
+  <main>
+    <div class="frame">
+      <span class="tag mono">nothing · 0.00</span>
+      <p class="code" aria-hidden="true">404<span class="dot"></span></p>
+      <h1>No detections in this frame</h1>
+      <p>The page you're looking for isn't part of this feed. It may have moved, or the link has a typo.</p>
+      <p class="predict mono"><span>model.predict("</span><span id="path">this page</span><span>")</span> → <b>0 objects</b></p>
+      <div class="actions">
+        <a class="btn btn-amber" href="/">Back to the feed</a>
+        <a class="btn" href="/#projects">See the projects</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="mono">© Mazen Elnaghy · Port Said, Egypt</footer>
+
+  <script>
+    document.getElementById("path").textContent = location.pathname || "/";
+  </script>
+</body>
+</html>
