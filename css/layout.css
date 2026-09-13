@@ -107,6 +107,8 @@ main, .footer { position: relative; z-index: var(--z-content); }
   transition: clip-path .6s var(--ease-in-out);
 }
 .menu.is-open { clip-path: circle(160vmax at var(--mx, calc(100% - 40px)) var(--my, 34px)); }
+html.is-menu-open { overflow: hidden; }
+.menu-nav a.is-active { color: var(--accent-text); }
 .menu-nav { display: grid; }
 .menu-nav a {
   display: flex; align-items: baseline; gap: 18px;
@@ -288,7 +290,7 @@ main, .footer { position: relative; z-index: var(--z-content); }
 .sec-head-sticky { position: sticky; top: calc(var(--topbar-h) + 36px); }
 .sec-idx {
   display: flex; align-items: center; gap: 12px;
-  margin: 0 0 22px;
+  margin: 0 0 44px;
   font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
   color: var(--ink-2);
 }
