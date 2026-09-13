@@ -52,7 +52,8 @@
         introTimer = setTimeout(function () { if (!hovering) reveal(false); }, 1900);
       }, 1100);
     }
-    if (document.documentElement.classList.contains("boot-pending")) ME.bus.on("boot:done", lockOn);
+    // wait for the intro to finish; if its script never loaded, lock on straight away
+    if (document.documentElement.classList.contains("boot-pending") && ME.boot) ME.bus.on("boot:done", lockOn);
     else lockOn();
 
     /* ---------- confidence flicker ---------- */
