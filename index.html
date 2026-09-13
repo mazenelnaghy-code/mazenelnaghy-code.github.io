@@ -68,14 +68,14 @@
     <filter id="duo" color-interpolation-filters="sRGB">
       <feColorMatrix type="matrix" values="0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0"/>
       <feComponentTransfer>
-        <feFuncR type="linear" slope="1.22" intercept="-0.1"/>
-        <feFuncG type="linear" slope="1.22" intercept="-0.1"/>
-        <feFuncB type="linear" slope="1.22" intercept="-0.1"/>
+        <feFuncR type="linear" slope="1.25" intercept="-0.08"/>
+        <feFuncG type="linear" slope="1.25" intercept="-0.08"/>
+        <feFuncB type="linear" slope="1.25" intercept="-0.08"/>
       </feComponentTransfer>
       <feComponentTransfer>
-        <feFuncR type="table" tableValues="0.024 0.078 0.204 0.957"/>
-        <feFuncG type="table" tableValues="0.043 0.129 0.275 0.957"/>
-        <feFuncB type="table" tableValues="0.086 0.239 0.420 0.949"/>
+        <feFuncR type="table" tableValues="0.024 0.078 0.204 0.655 0.957"/>
+        <feFuncG type="table" tableValues="0.043 0.129 0.275 0.694 0.957"/>
+        <feFuncB type="table" tableValues="0.086 0.239 0.420 0.769 0.949"/>
       </feComponentTransfer>
     </filter>
 
@@ -106,7 +106,7 @@
 </svg>
 
 <!-- ═════════ ambient layers ═════════ -->
-<canvas id="field" class="field" aria-hidden="true"></canvas>
+<canvas id="field" class="air-field" aria-hidden="true"></canvas>
 <div class="viewfinder" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
 <!-- ═════════ BOOT: power on the edge device ═════════ -->
@@ -216,8 +216,8 @@
       <span class="airchip-dot" aria-hidden="true"></span>
       <span class="airchip-live">Live</span>
       <span class="airchip-city">Port Said</span>
-      <span class="airchip-val"><span class="airchip-k">PM2.5</span> <b data-air="pm25">16.5</b></span>
-      <span class="airchip-val"><span class="airchip-k">AQI</span> <b data-air="aqi">61</b></span>
+      <span class="airchip-pm"><span class="airchip-k">PM2.5</span> <b data-air="pm25">16.5</b></span>
+      <span class="airchip-aqi"><span class="airchip-k">AQI</span> <b data-air="aqi">61</b></span>
       <span class="sr-only">(opens the air-quality dashboard)</span>
     </a>
     <button class="iconbtn" id="theme-toggle" type="button" aria-label="Switch to light theme">
@@ -252,7 +252,7 @@
   <section class="hero" id="top" aria-labelledby="hero-name">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="hud-line mono"><span class="rec-dot" aria-hidden="true"></span>Frame 0001<span class="hud-sep" aria-hidden="true">/</span>subject detected in Port Said</p>
+        <p class="hud-line mono"><span class="rec-dot" aria-hidden="true"></span>Frame 0001<span class="hud-sep" aria-hidden="true">/</span>subject detected<span class="hud-more"> in Port Said</span></p>
         <h1 class="hero-name" id="hero-name">
           <span class="hero-line">Mazen</span>
           <span class="hero-line">Elnaghy<span class="brand-dot" aria-hidden="true"></span></span>
@@ -264,22 +264,26 @@
           <a class="btn btn-line" href="assets/Mazen_Elnaghy_CV.pdf" download>Download CV<svg class="ico" aria-hidden="true"><use href="#i-download"/></svg></a>
         </div>
         <dl class="stats">
-          <div class="stat"><dt>GPA</dt><dd>3.95<small>/ 4.0</small></dd></div>
-          <div class="stat"><dt>Department rank</dt><dd>#1<small>2024 / 25</small></dd></div>
-          <div class="stat"><dt>Projects shipped</dt><dd>4<small>1 awarded</small></dd></div>
-          <div class="stat"><dt>Cities monitored</dt><dd>8<small class="stat-live"><i aria-hidden="true"></i>live</small></dd></div>
+          <div class="stat"><dt>GPA</dt><dd>3.95<small>out of 4.0</small></dd></div>
+          <div class="stat"><dt>Dept. rank</dt><dd>#1<small>2024 / 25</small></dd></div>
+          <div class="stat"><dt>Projects</dt><dd>4<small>1 awarded</small></dd></div>
+          <div class="stat"><dt>Cities</dt><dd>8<small class="stat-live"><i aria-hidden="true"></i>monitored live</small></dd></div>
         </dl>
       </div>
 
       <figure class="hero-portrait" id="portrait">
         <div class="panel" id="panel">
           <span class="panel-grid" aria-hidden="true"></span>
-          <span class="panel-cross" aria-hidden="true"></span>
-          <img class="portrait-img portrait-duo" src="assets/img/portrait.webp" width="1000" height="1173" alt="Mazen Elnaghy smiling, in a black polo shirt" fetchpriority="high">
-          <img class="portrait-img portrait-true" src="assets/img/portrait.webp" width="1000" height="1173" alt="" aria-hidden="true">
-          <div class="lock" id="lock" aria-hidden="true">
-            <span class="lock-tag mono"><b>mazen_elnaghy</b><span id="lock-conf">0.99</span></span>
-            <span class="lock-xy mono" id="lock-xy">x 215 · y 50 · w 565 · h 770</span>
+          <div class="panel-clip">
+            <div class="subject" id="subject">
+              <img class="portrait-img portrait-duo" src="assets/img/portrait.webp" width="1000" height="1173" alt="Mazen Elnaghy smiling, in a black polo shirt" fetchpriority="high">
+              <img class="portrait-img portrait-true" src="assets/img/portrait.webp" width="1000" height="1173" alt="" aria-hidden="true">
+              <span class="scanline" aria-hidden="true"></span>
+              <div class="lock" id="lock" aria-hidden="true">
+                <span class="lock-tag mono"><b>mazen_elnaghy</b><span id="lock-conf">0.99</span></span>
+                <span class="lock-xy mono" id="lock-xy">x 250 · y 180 · w 500 · h 640</span>
+              </div>
+            </div>
           </div>
           <span class="panel-label mono" aria-hidden="true">cam 01 · 31.27°N 32.30°E</span>
         </div>
@@ -291,7 +295,7 @@
   <!-- ═════════ 01 ABOUT ═════════ -->
   <section class="sec" id="about" aria-labelledby="about-title">
     <div class="wrap sec-grid">
-      <header class="sec-head">
+      <header class="sec-head sec-head-sticky">
         <p class="sec-idx mono"><span>01</span>Who I am</p>
         <h2 class="sec-title det" id="about-title" data-tag="about · 0.98">About<span class="brand-dot" aria-hidden="true"></span></h2>
       </header>
@@ -512,26 +516,26 @@
       <div class="skills" id="skill-list">
         <div class="sk-group">
           <h3 class="sk-h mono">Languages</h3>
-          <div class="sk" data-v="0.95"><span class="sk-name">Python</span><span class="sk-val mono">0.95</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
-          <div class="sk" data-v="0.85"><span class="sk-name">SQL</span><span class="sk-val mono">0.85</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
-          <div class="sk" data-v="0.78"><span class="sk-name">C++</span><span class="sk-val mono">0.78</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.95" style="--v:0.95"><span class="sk-name">Python</span><span class="sk-val mono">0.95</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.85" style="--v:0.85"><span class="sk-name">SQL</span><span class="sk-val mono">0.85</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.78" style="--v:0.78"><span class="sk-name">C++</span><span class="sk-val mono">0.78</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
         </div>
         <div class="sk-group">
           <h3 class="sk-h mono">Machine learning &amp; vision</h3>
-          <div class="sk" data-v="0.92"><span class="sk-name">Object detection (YOLO)</span><span class="sk-val mono">0.92</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
-          <div class="sk" data-v="0.90"><span class="sk-name">OpenCV &amp; image processing</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
-          <div class="sk" data-v="0.86"><span class="sk-name">Deep learning &amp; neural networks</span><span class="sk-val mono">0.86</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
-          <div class="sk" data-v="0.88"><span class="sk-name">Dataset preparation &amp; annotation</span><span class="sk-val mono">0.88</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.92" style="--v:0.92"><span class="sk-name">Object detection (YOLO)</span><span class="sk-val mono">0.92</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.90" style="--v:0.9"><span class="sk-name">OpenCV &amp; image processing</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.86" style="--v:0.86"><span class="sk-name">Deep learning &amp; neural networks</span><span class="sk-val mono">0.86</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.88" style="--v:0.88"><span class="sk-name">Dataset preparation &amp; annotation</span><span class="sk-val mono">0.88</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
         </div>
         <div class="sk-group">
           <h3 class="sk-h mono">Edge deployment</h3>
-          <div class="sk" data-v="0.90"><span class="sk-name">Raspberry Pi deployment</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
-          <div class="sk" data-v="0.87"><span class="sk-name">Real-time inference on constrained hardware</span><span class="sk-val mono">0.87</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.90" style="--v:0.9"><span class="sk-name">Raspberry Pi deployment</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.87" style="--v:0.87"><span class="sk-name">Real-time inference on constrained hardware</span><span class="sk-val mono">0.87</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
         </div>
         <div class="sk-group">
           <h3 class="sk-h mono">Languages spoken</h3>
-          <div class="sk" data-v="1.00"><span class="sk-name">Arabic — native</span><span class="sk-val mono">1.00</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
-          <div class="sk" data-v="0.90"><span class="sk-name">English — professional (C1)</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="1.00" style="--v:1"><span class="sk-name">Arabic — native</span><span class="sk-val mono">1.00</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
+          <div class="sk" data-v="0.90" style="--v:0.9"><span class="sk-name">English — professional (C1)</span><span class="sk-val mono">0.90</span><span class="sk-bar" aria-hidden="true"><i></i></span></div>
         </div>
         <div class="sk-group sk-group-wide">
           <h3 class="sk-h mono">Also working with</h3>

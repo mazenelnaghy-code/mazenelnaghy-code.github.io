@@ -33,7 +33,7 @@
   /* layout */
   --wrap: 1280px;
   --gutter: clamp(20px, 4.2vw, 60px);
-  --sec-pad: clamp(96px, 13vw, 176px);
+  --sec-pad: clamp(84px, 10vw, 136px);
   --topbar-h: 68px;
   --hudbar-h: 40px;
   --ease-out: cubic-bezier(.16, 1, .3, 1);
