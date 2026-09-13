@@ -26,7 +26,11 @@
     try { theme = localStorage.getItem("me.theme"); booted = localStorage.getItem("me.booted") === "1"; } catch (e) {}
     if (theme === "light" || theme === "dark") d.setAttribute("data-theme", theme);
     var reduce = /[?&]reduced\b/.test(q) || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-    if (/[?&]boot\b/.test(q) || (!booted && !reduce && !/[?&]noboot\b/.test(q) && !/^#\/projects\//.test(location.hash))) d.classList.add("boot-pending");
+    if (/[?&]boot\b/.test(q) || (!booted && !reduce && !/[?&]noboot\b/.test(q) && !/^#\/projects\//.test(location.hash))) {
+      d.classList.add("boot-pending");
+      // safety net: never let the intro block the page if its script fails to load
+      setTimeout(function () { if (!(window.ME && ME.boot && ME.boot.started)) d.classList.remove("boot-pending"); }, 8000);
+    }
   })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -134,14 +138,14 @@
             <circle cx="7" cy="7" r=".9" fill="currentColor" opacity=".16"/>
           </pattern>
         </defs>
-        <!-- camera module + ribbon -->
-        <path class="b-ribbon" d="M430 118 C 452 70, 500 58, 520 40"/>
-        <g class="b-cam" id="b-cam">
-          <rect x="484" y="-8" width="116" height="92" rx="6"/>
-          <circle class="b-lens-ring" cx="542" cy="38" r="30"/>
-          <circle class="b-lens" id="b-lens" cx="542" cy="38" r="18"/>
-          <circle class="b-lens-glint" cx="535" cy="31" r="4"/>
-          <circle class="b-hole" cx="496" cy="4" r="3.5"/><circle class="b-hole" cx="588" cy="4" r="3.5"/>
+        <!-- camera module on a flex ribbon -->
+        <path class="b-ribbon" d="M464 118 C 470 104, 522 114, 544 96"/>
+        <g class="b-cam">
+          <rect x="500" y="8" width="112" height="88" rx="6"/>
+          <circle class="b-hole" cx="512" cy="20" r="3.5"/><circle class="b-hole" cx="600" cy="20" r="3.5"/>
+          <circle class="b-lens-ring" cx="556" cy="52" r="28"/>
+          <circle class="b-lens" id="b-lens" cx="556" cy="52" r="16"/>
+          <circle class="b-lens-glint" cx="550" cy="46" r="4"/>
         </g>
         <!-- board -->
         <g class="b-board">
@@ -149,37 +153,34 @@
           <rect class="b-pcb-dots" x="40" y="110" width="500" height="300" rx="16" fill="url(#pcb)"/>
           <circle class="b-hole" cx="66" cy="136" r="7"/><circle class="b-hole" cx="514" cy="136" r="7"/>
           <circle class="b-hole" cx="66" cy="384" r="7"/><circle class="b-hole" cx="514" cy="384" r="7"/>
-          <!-- GPIO header 2x20 -->
           <g class="b-gpio" id="b-gpio"></g>
-          <!-- SoC with the mark -->
+          <rect class="b-csi" x="440" y="118" width="48" height="14" rx="2"/>
+          <text class="b-silk" x="196" y="190">EDGE-01</text>
           <rect class="b-chip" x="196" y="200" width="112" height="112" rx="6"/>
-          <svg x="222" y="228" width="60" height="56" class="b-chip-mark"><use href="#mark"/></svg>
+          <svg x="222" y="228" width="60" height="56" class="b-chip-mark"><use href="#mark" width="60" height="56"/></svg>
           <rect class="b-chip b-chip-sm" x="330" y="214" width="62" height="40" rx="4"/>
           <rect class="b-chip b-chip-sm" x="330" y="266" width="62" height="40" rx="4"/>
-          <!-- ports -->
+          <text class="b-silk" x="330" y="332">YOLO-READY · 5V 3A</text>
           <rect class="b-port" x="468" y="176" width="86" height="54" rx="3"/>
           <rect class="b-port" x="468" y="244" width="86" height="54" rx="3"/>
           <rect class="b-port" x="468" y="312" width="86" height="62" rx="3"/>
           <rect class="b-port" x="178" y="388" width="44" height="30" rx="3"/>
           <rect class="b-port" x="240" y="388" width="44" height="30" rx="3"/>
-          <rect class="b-csi" x="404" y="120" width="52" height="14" rx="2"/>
-          <text class="b-silk" x="64" y="398">EDGE-01 · 5V 3A</text>
-          <text class="b-silk" x="330" y="330">YOLO-READY</text>
-          <!-- LEDs -->
-          <circle class="b-led b-led-pwr" id="led-pwr" cx="100" cy="376" r="6"/>
-          <circle class="b-led b-led-act" id="led-act" cx="124" cy="376" r="6"/>
-          <text class="b-silk" x="90" y="360">PWR ACT</text>
+          <circle class="b-led b-led-pwr" id="led-pwr" cx="78" cy="336" r="6"/>
+          <circle class="b-led b-led-act" id="led-act" cx="100" cy="336" r="6"/>
+          <text class="b-silk" x="66" y="360">PWR ACT</text>
         </g>
-        <!-- USB-C power port on the left edge -->
+        <!-- USB-C power input on the left edge -->
         <g class="b-usbc">
-          <circle class="b-port-ring" id="port-ring" cx="36" cy="288" r="26"/>
+          <circle class="b-port-ring" id="port-ring" cx="41" cy="288" r="26"/>
           <rect class="b-port b-port-c" id="port" x="26" y="274" width="30" height="28" rx="8"/>
           <rect class="b-port-slot" x="34" y="283" width="14" height="10" rx="4"/>
         </g>
+        <path class="b-guide" id="guide" d=""/>
         <!-- cable + draggable plug -->
-        <path class="b-cable" id="cable" d="M-60 470 C -20 430, 0 420, -10 400"/>
-        <g class="b-plug" id="plug" tabindex="0" role="button" aria-label="Plug the power cable into the board">
-          <rect class="b-plug-hit" x="-44" y="-30" width="88" height="60" rx="12"/>
+        <path class="b-cable" id="cable" d=""/>
+        <g class="b-plug" id="plug" tabindex="0" role="button" aria-label="Plug the power cable into the board" transform="translate(96 446)">
+          <rect class="b-plug-hit" x="-48" y="-34" width="96" height="68" rx="14"/>
           <rect class="b-plug-body" x="-30" y="-15" width="44" height="30" rx="8"/>
           <rect class="b-plug-tip" x="12" y="-8" width="22" height="16" rx="5"/>
           <path class="b-plug-grip" d="M-20 -7v14M-12 -7v14M-4 -7v14"/>
