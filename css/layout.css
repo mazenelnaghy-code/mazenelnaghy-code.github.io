@@ -89,9 +89,6 @@ main, .footer { position: relative; z-index: var(--z-content); }
 .airchip-k { color: var(--ink-3); }
 .airchip b { font-weight: 500; color: var(--ink); }
 
-.ico-moon { display: none; }
-:root[data-theme="light"] .ico-sun { display: none; }
-:root[data-theme="light"] .ico-moon { display: block; }
 .menu-toggle { display: none; }
 
 /* ---------- mobile menu ---------- */

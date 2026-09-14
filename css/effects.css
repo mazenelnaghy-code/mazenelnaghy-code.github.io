@@ -1,0 +1,182 @@
+/* ==========================================================================
+   effects.css — site-wide touches: day/night switch + light sweep, detector
+   cursor, scroll reveals, tilting cards with glare, the moving word strip
+   ========================================================================== */
+
+/* ---------- day / night switch ---------- */
+.switch {
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 42px; padding: 0 12px 0 8px;
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  transition: border-color .25s, color .25s;
+}
+.switch:hover { border-color: var(--accent); color: var(--ink); }
+.switch-track {
+  position: relative; flex: none;
+  width: 50px; height: 26px;
+  border: 1px solid var(--line-strong); border-radius: 13px;
+  background: var(--bg-deep);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, .35);
+}
+.switch-end {
+  position: absolute; top: 50%;
+  width: 12px; height: 12px; margin-top: -6px;
+  fill: none; stroke: var(--ink-3); stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.switch-end-moon { left: 6px; }
+.switch-end-sun { right: 6px; }
+.switch-knob {
+  position: absolute; left: 2px; top: 2px;
+  width: 20px; height: 20px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .45), 0 0 0 0 rgba(255, 196, 46, .3);
+  transition: translate .5s var(--ease-snap), box-shadow .3s;
+}
+:root[data-theme="light"] .switch-knob { translate: 24px 0; box-shadow: 0 1px 3px rgba(20, 33, 61, .35), 0 0 0 0 rgba(255, 196, 46, .3); }
+.switch:hover .switch-knob { box-shadow: 0 1px 3px rgba(0, 0, 0, .45), 0 0 0 5px rgba(255, 196, 46, .22); }
+.switch:active .switch-knob { scale: .86; }
+.switch.is-flipping .switch-knob { animation: knob-squash .5s var(--ease-out); }
+@keyframes knob-squash { 35% { scale: 1.4 .78; } 70% { scale: .94 1.06; } }
+.switch-glyph {
+  grid-area: 1 / 1;
+  width: 11px; height: 11px;
+  fill: none; stroke: var(--navy); stroke-width: 2.4;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: opacity .3s, rotate .5s var(--ease-out);
+}
+.switch-glyph-sun { opacity: 0; rotate: -90deg; }
+:root[data-theme="light"] .switch-glyph-sun { opacity: 1; rotate: 0deg; }
+:root[data-theme="light"] .switch-glyph-moon { opacity: 0; rotate: 90deg; }
+.switch-label { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; min-width: 3.9em; }
+.switch-label-day { display: none; }
+:root[data-theme="light"] .switch-label-day { display: inline; }
+:root[data-theme="light"] .switch-label-night { display: none; }
+
+/* the new theme sweeps out of the knob (View Transitions); nothing else animates meanwhile */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+.is-theme-sweep *, .is-theme-sweep *::before, .is-theme-sweep *::after { transition: none !important; }
+.is-theme-sweep .switch-knob { transition: translate .5s var(--ease-snap) !important; }
+.is-theme-sweep .switch-glyph { transition: opacity .3s, rotate .5s var(--ease-out) !important; }
+
+/* ---------- detector cursor ---------- */
+html.has-reticle, html.has-reticle * { cursor: none !important; }
+html.has-reticle input:not([type="range"]), html.has-reticle textarea { cursor: text !important; }
+
+.cur-dot, .cur-box {
+  position: fixed; left: 0; top: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.cur-dot {
+  width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 1.5px var(--navy);
+}
+.cur-box {
+  --c: rgba(var(--field-rgb), .6);
+  --l: 7px;
+  --t: 1.5px;
+  background:
+    linear-gradient(var(--c) 0 0) 0 0 / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 0 / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 0 / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 0 / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 100% / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c) 0 0) 0 100% / var(--t) var(--l) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 100% / var(--l) var(--t) no-repeat,
+    linear-gradient(var(--c) 0 0) 100% 100% / var(--t) var(--l) no-repeat;
+}
+.has-reticle .cur-dot.is-on, .has-reticle .cur-box.is-on { opacity: 1; }
+.has-reticle .cur-dot.is-text { opacity: 0; }
+.has-reticle .cur-box.is-own { opacity: 0; }
+.cur-box.is-lock { --c: var(--amber); --l: 11px; --t: 2px; }
+.cur-box.on-dark { --c: rgba(244, 244, 242, .6); }
+.cur-box.on-amber { --c: rgba(20, 33, 61, .7); }
+.cur-box.is-lock.on-dark { --c: var(--amber); }
+.cur-box.is-lock.on-amber { --c: var(--navy); }
+.cur-tag {
+  position: absolute; left: 0; bottom: 100%;
+  margin-bottom: 4px;
+  padding: 3px 6px 2px;
+  background: var(--amber); color: var(--navy);
+  font: 500 10px/1.2 var(--f-mono); letter-spacing: .03em;
+  white-space: nowrap;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity .15s, transform .25s var(--ease-out);
+}
+.cur-box.is-lock .cur-tag { opacity: 1; transform: none; }
+.cur-box.on-amber .cur-tag { background: var(--navy); color: var(--amber); }
+.cur-box.tag-below .cur-tag { bottom: auto; top: 100%; margin: 4px 0 0; }
+
+/* ---------- scroll reveals ---------- */
+.rv { opacity: 0; }
+.rv.in { animation: rv-in .85s var(--ease-out) var(--rv-delay, 0ms) both; }
+@keyframes rv-in {
+  from { opacity: 0; translate: 0 30px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+/* ---------- tilting cards ---------- */
+.tilt { transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px)); }
+.tile.tilt { transition: transform .7s var(--ease-out), border-color .3s; }
+.proj.tilt { transition: transform .7s var(--ease-out), border-color .3s, box-shadow .55s var(--ease-out); }
+.proj.tilt:hover { --lift: -6px; transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift)); }
+.tile.tilt.is-tilting { transition: transform .14s linear, border-color .3s; }
+.proj.tilt.is-tilting { transition: transform .14s linear, border-color .3s, box-shadow .55s var(--ease-out); }
+.glare {
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(480px circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 196, 46, .12), transparent 55%);
+  opacity: 0;
+  transition: opacity .5s;
+}
+:root[data-theme="light"] .glare { background: radial-gradient(480px circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 196, 46, .2), transparent 55%); }
+.tilt.is-tilting .glare { opacity: 1; }
+
+/* ---------- moving word strip ---------- */
+.strip {
+  --strip-size: clamp(52px, 7.2vw, 116px);
+  position: relative; z-index: var(--z-content);
+  overflow: hidden;
+  padding: 24px 0 20px;
+  border-block: 1px solid var(--line);
+  -webkit-user-select: none; user-select: none;
+}
+.strip-track { display: flex; width: max-content; will-change: transform; }
+.strip-group { display: flex; align-items: center; flex: none; }
+.strip-group span {
+  padding: 0 .3em;
+  font: 700 var(--strip-size)/.9 var(--f-display);
+  text-transform: uppercase; white-space: nowrap;
+  color: var(--ink);
+}
+.strip-group span.is-outline { color: transparent; -webkit-text-stroke: 1.5px var(--ink-3); }
+.strip-group i {
+  flex: none;
+  width: calc(var(--strip-size) * .15); height: calc(var(--strip-size) * .15);
+  margin: 0 calc(var(--strip-size) * .2);
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+/* ---------- printing and reduced motion: everything visible and still ---------- */
+@media print {
+  .rv { opacity: 1 !important; animation: none !important; }
+  .cur-dot, .cur-box { display: none !important; }
+}
+@media (max-width: 1240px) {
+  .switch-label { display: none; }
+  .switch { padding: 0 9px; }
+}
+@media (max-width: 640px) {
+  .strip { padding: 18px 0 14px; }
+  .strip-group span.is-outline { -webkit-text-stroke-width: 1px; }
+}

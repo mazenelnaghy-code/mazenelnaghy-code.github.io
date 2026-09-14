@@ -84,6 +84,11 @@
   }
 
   function pick(focus) {
+    // while the cursor has locked onto something, leave the spotlight to it
+    if (!focus.scanner && document.documentElement.classList.contains("is-cursor-locked")) {
+      detections.forEach(function (d) { d.want = false; });
+      return;
+    }
     var R = focus.scanner ? 230 : 170;
     var R2 = R * R;
     var near = [];
@@ -94,7 +99,7 @@
       if (d2 < R2) near.push([d2, p]);
     }
     near.sort(function (a, b) { return a[0] - b[0]; });
-    var max = ME.finePointer() ? 3 : 2;
+    var max = ME.finePointer() ? 3 : 1; // phones scan behind the text: one quiet box is plenty
     var chosen = near.slice(0, max).map(function (n) { return n[1]; });
     detections.forEach(function (d) { d.want = chosen.indexOf(d.p) > -1; });
     chosen.forEach(function (p) {
@@ -127,7 +132,7 @@
   }
 
   function drawDetections(dt, focus) {
-    var ceiling = focus.scanner ? 0.5 : 1; // the idle scanner stays quiet behind text
+    var ceiling = focus.scanner ? (ME.finePointer() ? 0.5 : 0.32) : 1; // the idle scanner stays quiet behind text
     for (var i = detections.length - 1; i >= 0; i--) {
       var d = detections[i];
       d.alpha = ME.clamp(d.alpha + (d.want ? dt * 6 : -dt * 4), 0, ceiling);

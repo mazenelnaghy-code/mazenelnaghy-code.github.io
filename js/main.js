@@ -3,7 +3,7 @@
   "use strict";
 
   var ME = window.ME;
-  var order = ["hud", "field", "hero", "projects", "sections", "contact", "yolo", "boot"];
+  var order = ["hud", "field", "hero", "projects", "sections", "contact", "reveal", "tilt", "strip", "cursor", "yolo", "boot"];
 
   order.forEach(function (name) {
     var mod = ME[name];
