@@ -19,8 +19,14 @@ hosted on GitHub Pages.
   a ball tracker you can throw, and an animated ER schema. Cards open into a dialog that flips between projects
   (← →) and has its own link, `#/projects/<name>`.
 - **Skills with a confidence threshold**, like YOLO's `conf=`. Drag the slider and weaker skills drop out.
+- **Day / night switch.** A hardware-style toggle with the amber dot as its knob. Flipping it sweeps the new light
+  across the page from the switch.
+- **Detector cursor.** On a mouse, the pointer becomes a small reticle that locks onto links and buttons and labels
+  them (`link 0.94`, `github 0.97`…).
+- **Sections come alive.** Blocks rise into frame as you scroll, section titles decode letter by letter, the hero
+  numbers count up, cards tilt toward the mouse, and a band of words drifts across the page, faster when you scroll.
 - **Easter egg.** Type `yolo` anywhere on the page.
-- Dark "night feed" and light "day feed" themes. Every interaction also works from the keyboard, and the site respects `prefers-reduced-motion`.
+- Every interaction also works from the keyboard. With `prefers-reduced-motion` set, everything stays still.
 
 The palette comes straight from my logo: navy `#14213D`, amber `#FFC42E`, paper `#F4F4F2`.
 
@@ -33,10 +39,15 @@ css/tokens.css          palette and theme tokens
 css/base.css            reset, type, buttons, chips, detection brackets
 css/layout.css          HUD, hero, sections, footer, responsive rules
 css/components.css      project cards + dialog, demos, slider, form, boot, YOLO layer
+css/effects.css         day/night switch, cursor, reveals, tilt, word strip
 js/core.js              shared helpers, event bus, one animation loop
 js/air.js               live Port Said data (falls back to a saved sample)
 js/field.js             moving particle background
-js/hud.js               theme, navigation, seek bar, clocks, mobile menu
+js/hud.js               day/night switch, navigation, seek bar, clocks, mobile menu
+js/cursor.js            detector cursor
+js/reveal.js            scroll reveals, decoding titles, counting numbers
+js/tilt.js              tilting cards
+js/strip.js             moving word strip
 js/hero.js              portrait lock-on
 js/demos.js             the four project demos
 js/projects.js          project dialog, flipping, deep links
