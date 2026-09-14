@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/effects.css">
 <script defer src="js/core.js"></script>
 <script defer src="js/air.js"></script>
 <script defer src="js/field.js"></script>
@@ -51,6 +52,10 @@
 <script defer src="js/sections.js"></script>
 <script defer src="js/contact.js"></script>
 <script defer src="js/boot.js"></script>
+<script defer src="js/reveal.js"></script>
+<script defer src="js/tilt.js"></script>
+<script defer src="js/strip.js"></script>
+<script defer src="js/cursor.js"></script>
 <script defer src="js/yolo.js"></script>
 <script defer src="js/main.js"></script>
 </head>
@@ -222,9 +227,16 @@
       <span class="airchip-aqi"><span class="airchip-k">AQI</span> <b data-air="aqi">61</b></span>
       <span class="sr-only">(opens the air-quality dashboard)</span>
     </a>
-    <button class="iconbtn" id="theme-toggle" type="button" aria-label="Switch to light theme">
-      <svg class="ico ico-sun" aria-hidden="true"><use href="#i-sun"/></svg>
-      <svg class="ico ico-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+    <button class="switch" id="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Day mode">
+      <span class="switch-track" aria-hidden="true">
+        <svg class="switch-end switch-end-moon"><use href="#i-moon"/></svg>
+        <svg class="switch-end switch-end-sun"><use href="#i-sun"/></svg>
+        <span class="switch-knob">
+          <svg class="switch-glyph switch-glyph-moon"><use href="#i-moon"/></svg>
+          <svg class="switch-glyph switch-glyph-sun"><use href="#i-sun"/></svg>
+        </span>
+      </span>
+      <span class="switch-label mono" aria-hidden="true"><span class="switch-label-night">Night</span><span class="switch-label-day">Day</span></span>
     </button>
     <button class="iconbtn menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
       <svg class="ico" aria-hidden="true"><use href="#i-menu"/></svg>
@@ -293,6 +305,20 @@
       </figure>
     </div>
   </section>
+
+  <!-- ═════════ moving word strip ═════════ -->
+  <div class="strip" aria-hidden="true">
+    <div class="strip-track">
+      <div class="strip-group">
+        <span>Computer Vision</span><i></i>
+        <span class="is-outline">Edge AI</span><i></i>
+        <span>Data Engineering</span><i></i>
+        <span class="is-outline">YOLO</span><i></i>
+        <span>Raspberry Pi</span><i></i>
+        <span class="is-outline">Port Said</span><i></i>
+      </div>
+    </div>
+  </div>
 
   <!-- ═════════ 01 ABOUT ═════════ -->
   <section class="sec" id="about" aria-labelledby="about-title">

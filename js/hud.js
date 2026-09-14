@@ -8,22 +8,40 @@
   var SECTIONS = ["about", "projects", "resume", "skills", "writing", "contact"];
   var LABELS = { about: "About", projects: "Projects", resume: "Resume", skills: "Skills", writing: "Writing", contact: "Contact" };
 
-  /* ---------- theme ---------- */
+  /* ---------- theme: a day / night switch; the new light sweeps out of its knob ---------- */
   function syncThemeChrome(theme) {
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", theme === "light" ? "#F4F4F2" : "#0A1120");
-    var btn = document.getElementById("theme-toggle");
-    if (btn) btn.setAttribute("aria-label", theme === "light" ? "Switch to dark theme" : "Switch to light theme");
+    var sw = document.getElementById("theme-toggle");
+    if (sw) sw.setAttribute("aria-checked", String(theme === "light"));
+  }
+
+  function applyTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    ME.store.set("me.theme", theme);
+    syncThemeChrome(theme);
+    ME.bus.emit("theme", { theme: theme });
   }
 
   ME.theme = {
     get: function () { return root.getAttribute("data-theme") === "light" ? "light" : "dark"; },
-    set: function (theme) {
+    // origin {x, y}: where the sweep starts; without it (or without View Transitions) the swap is instant
+    set: function (theme, origin) {
       theme = theme === "light" ? "light" : "dark";
-      root.setAttribute("data-theme", theme);
-      ME.store.set("me.theme", theme);
-      syncThemeChrome(theme);
-      ME.bus.emit("theme", { theme: theme });
+      var canSweep = origin && typeof document.startViewTransition === "function" && !ME.reducedMotion() && theme !== ME.theme.get();
+      if (!canSweep) { applyTheme(theme); return; }
+      root.classList.add("is-theme-sweep");
+      var vt = document.startViewTransition(function () { applyTheme(theme); });
+      vt.ready.then(function () {
+        var r = Math.hypot(Math.max(origin.x, window.innerWidth - origin.x), Math.max(origin.y, window.innerHeight - origin.y));
+        var at = " at " + origin.x + "px " + origin.y + "px)";
+        root.animate(
+          { clipPath: ["circle(0px" + at, "circle(" + Math.ceil(r) + "px" + at] },
+          { duration: 760, easing: "cubic-bezier(.65, 0, .35, 1)", pseudoElement: "::view-transition-new(root)" }
+        );
+      }).catch(function () { /* transition skipped: the theme is already applied */ });
+      vt.finished.then(done, done);
+      function done() { root.classList.remove("is-theme-sweep"); }
     }
   };
 
@@ -49,8 +67,19 @@
     var menuLinks = ME.$$(".menu-nav a");
 
     syncThemeChrome(ME.theme.get());
-    document.getElementById("theme-toggle").addEventListener("click", function () {
-      ME.theme.set(ME.theme.get() === "dark" ? "light" : "dark");
+    var sw = document.getElementById("theme-toggle");
+    sw.addEventListener("click", function () {
+      var knob = sw.querySelector(".switch-knob").getBoundingClientRect();
+      sw.classList.remove("is-flipping");
+      void sw.offsetWidth; // restart the squash
+      sw.classList.add("is-flipping");
+      ME.theme.set(ME.theme.get() === "dark" ? "light" : "dark", {
+        x: Math.round(knob.left + knob.width / 2),
+        y: Math.round(knob.top + knob.height / 2)
+      });
+    });
+    sw.addEventListener("animationend", function (e) {
+      if (e.animationName === "knob-squash") sw.classList.remove("is-flipping");
     });
 
     /* ---------- seek bar ticks ---------- */
@@ -131,6 +160,7 @@
       var stop = ME.onVisible(el, function (visible) {
         if (!visible) return;
         el.classList.add("is-locked");
+        ME.bus.emit("lock", { el: el });
         if (stop) stop();
       }, { threshold: 0.75 });
     });
