@@ -396,13 +396,16 @@
           <div class="proj-body">
             <p class="proj-meta mono"><span class="award-dot" aria-hidden="true"></span>2026 · Awarded</p>
             <h3 class="proj-title" id="p2-title">Dog Detection &amp; Deterrent System</h3>
-            <p class="proj-sum">A YOLO model on a Raspberry Pi that spots stray dogs in a live feed and plays a deterrent sound — recognised at the EAST Engineering Expo.</p>
-            <ul class="chips" aria-label="Tech stack"><li>Python</li><li>YOLO</li><li>Raspberry Pi</li><li>OpenCV</li><li>Edge inference</li></ul>
+            <p class="proj-sum">A YOLO model on a Raspberry Pi that spots stray dogs near kindergartens and drives them away with an ultrasonic repeller — 97% of Egyptian street dogs detected in testing; recognised at the EAST Engineering Expo.</p>
+            <ul class="chips" aria-label="Tech stack"><li>Python</li><li>YOLO</li><li>Raspberry Pi</li><li>OpenCV</li><li>NCNN</li><li>Flask</li></ul>
             <button class="proj-open" type="button" aria-haspopup="dialog">Open detection<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></button>
           </div>
           <div class="proj-detail" hidden>
-            <p>A camera system that spots stray dogs in a live feed and plays a deterrent sound to drive them away — built to protect schoolyards and building entrances. A YOLO model runs on a Raspberry Pi in real time, triggering an audio output on detection.</p>
-            <p>Most of the work went into cutting false alarms while staying inside the Pi's compute budget. Recognised as an outstanding engineering project at the EAST Engineering Expo.</p>
+            <p>A camera system that protects kindergartens and school gates from stray dogs. YOLO runs on a Raspberry Pi in real time: when a dog's centre point enters a danger zone — or its camera-estimated distance drops below 3 m — and the detection holds across frames, the Pi sounds a buzzer for staff and switches a relay that drives an ultrasonic repeller in short bursts.</p>
+            <p>Testing on 236 photos of Egyptian street dogs showed the stock model often labels baladi dogs as cows, bears or sheep. Counting those look-alike labels — never cats or people — raised dogs found from 72% to 97%, with 4% false alarms on photos of children. The open-source version adds a web dashboard, a hardware self-test, a safety watchdog, 100+ automated tests and a one-command demo. Recognised as an outstanding engineering project at the EAST Engineering Expo.</p>
+            <p class="proj-links">
+              <a href="https://github.com/mazenelnaghy-code/dog-detection" target="_blank" rel="noopener">Source on GitHub<svg class="ico" aria-hidden="true"><use href="#i-arrow-out"/></svg></a>
+            </p>
           </div>
         </article>
 

@@ -117,7 +117,7 @@
         '<rect class="dog-tag-bg" x="0" y="0" width="74" height="16"/>' +
         '<text class="dog-tag" x="0" y="0">dog 0.00</text>' +
       "</g>" +
-      '<text class="dog-alert" x="164" y="96">deterrent ▲ 2.4 kHz</text>' +
+      '<text class="dog-alert" x="164" y="96">repeller ▲ 25 kHz</text>' +
     "</svg>";
 
   var audioCtx = null;
@@ -168,6 +168,7 @@
       btn.className = "stage-ctl";
       btn.setAttribute("aria-pressed", "false");
       btn.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-volume"/></svg><span>Deterrent sound: off</span>';
+      btn.title = "Audible preview: the real repeller is ultrasonic (~25 kHz) and silent to people";
       btn.addEventListener("click", function () {
         soundOn = !soundOn;
         btn.setAttribute("aria-pressed", String(soundOn));
