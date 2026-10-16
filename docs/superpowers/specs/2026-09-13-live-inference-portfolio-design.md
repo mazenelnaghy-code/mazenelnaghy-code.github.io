@@ -85,7 +85,7 @@ Type: Barlow Condensed 600/700 (display), IBM Plex Sans 400/500/600 (body), IBM 
 ### 4. Sections (content = current live site, plus GitHub links from the CV)
 1. **Hero** — `MAZEN / ELNAGHY.` huge; role line `AI ENGINEER · DATA SCIENTIST · DATA ENGINEER`
    (amber dot separators, from the CV); lead "I build AI systems that work outside the lab."; CTAs
-   (View detections / Download CV / Say hello); stats 3.95 GPA · #1 in department · 4 projects ·
+   (View detections / Download CV / Say hello); stats 3.97 GPA · #1 in department · 4 projects ·
    8 cities live. Portrait: duotone cut-out on amber panel, lock-on box `mazen_elnaghy 0.99` with
    jittering confidence and live bbox coordinates, subtle pointer parallax, true-color reveal on hover.
 2. **About** — lead + paragraphs; 4 "What I do" tiles with class-label brackets on hover.
