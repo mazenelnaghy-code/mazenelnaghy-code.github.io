@@ -1,6 +1,6 @@
 // Keeps Noor working offline. Noor's own files come from the network when it's there, so an update never mixes
 // old and new files, and from the cache when it isn't. Fonts come from the cache. Firestore is never touched.
-const CACHE = 'noor-v2';
+const CACHE = 'noor-v3';
 const SHELL = [
   './',
   './index.html',
@@ -34,7 +34,8 @@ self.addEventListener('activate', (event) => {
 async function networkFirst(request) {
   const cache = await caches.open(CACHE);
   try {
-    const response = await fetch(request);
+    // no-cache: always ask GitHub whether the file changed, so a new version shows on the next open.
+    const response = await fetch(request.mode === 'navigate' ? request.url : request, { cache: 'no-cache' });
     if (response.ok) cache.put(request, response.clone());
     return response;
   } catch {
