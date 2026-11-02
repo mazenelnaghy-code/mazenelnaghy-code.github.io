@@ -476,6 +476,9 @@ function renderPeople() {
   } else if (CONFIG) {
     html += `<div class="card cta"><div><p class="cta-title">${esc(t('startShared'))}</p><p class="muted">${esc(t('startSharedLine'))}</p></div>
       <button class="btn primary" data-act="start-shared">${esc(t('startShared'))}</button></div>`;
+  } else {
+    // Sharing needs the site's Firebase settings; until then, say where the button will be.
+    html += `<div class="card cta"><div><p class="cta-title">${esc(t('startShared'))}</p><p class="muted">${esc(t('sharingOff'))}</p></div></div>`;
   }
   box.innerHTML = html;
 }
