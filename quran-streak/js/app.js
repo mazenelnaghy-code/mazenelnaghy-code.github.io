@@ -25,6 +25,7 @@ const state = {
   members: [],
   meId: null,
   today: L.appDay(),
+  calMonth: L.monthOf(L.appDay()), // the month the calendar shows, 'YYYY-MM'
   serverSeen: false,
   syncError: false,
 };
@@ -51,6 +52,8 @@ const ICON = {
   share: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>',
   rings: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg>',
   bell: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg>',
+  back: '<svg viewBox="0 0 24 24" class="flip-rtl" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>',
+  forward: '<svg viewBox="0 0 24 24" class="flip-rtl" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg>',
 };
 
 function emblem(days, earned) {
@@ -334,7 +337,7 @@ function showMain() {
     ${state.store?.mode === 'demo' ? `<p class="demo-note">${esc(t('demoNote'))} <a class="link" href="${esc(window.NOOR_SITE || './')}"${window.NOOR_SITE ? ' target="_blank" rel="noopener"' : ''}>${esc(t('demoExit'))}</a></p>` : ''}
     <section class="hero">
       <p class="kicker" id="kicker"></p>
-      <button class="rub-btn" id="checkin" data-act="checkin" aria-pressed="false" aria-label="${esc(t('checkLabel'))}">
+      <button class="rub-btn" id="checkin" data-act="checkin" aria-label="${esc(t('editToday'))}">
         <svg viewBox="-62 -62 124 124" aria-hidden="true">
           <circle class="ring-track" r="58"/>
           <circle class="ring-fill" id="ring" r="58" pathLength="100" stroke-dasharray="0 100"/>
@@ -347,6 +350,13 @@ function showMain() {
         </svg>
       </button>
       <div class="streak"><span class="streak-num" id="streak-num">0</span><span class="streak-unit" id="streak-unit"></span></div>
+      <div class="ask" id="ask" hidden>
+        <p class="ask-q">${esc(t('askToday'))}</p>
+        <div class="ask-btns">
+          <button class="btn primary" data-act="yes">${esc(t('yesWallahi'))}</button>
+          <button class="btn ghost" data-act="no">${esc(t('no'))}</button>
+        </div>
+      </div>
       <p class="hero-sub" id="hero-sub">${esc(t('loading'))}</p>
       <p class="yesterday" id="yesterday" hidden><span>${esc(t('markYesterday'))}</span>
         <button class="link" data-act="yesterday">${esc(t('markYesterdayBtn'))}</button></p>
@@ -357,6 +367,18 @@ function showMain() {
       <canvas id="sky" role="img" aria-label="${esc(t('skyLine'))}"></canvas>
       <p class="sky-line">${esc(t('skyLine'))}</p>
       <div class="legend" id="legend"></div>
+    </section>
+    <section class="card cal-card" id="calendar">
+      <div class="cal-head">
+        <div class="cal-title"><h2>${esc(t('calendarTitle'))}</h2><p class="cal-hijri" id="cal-hijri"></p></div>
+        <div class="cal-nav">
+          <button class="icon-btn small" data-act="cal-prev" aria-label="${esc(t('prevMonth'))}">${ICON.back}</button>
+          <span class="cal-month" id="cal-month"></span>
+          <button class="icon-btn small" data-act="cal-next" aria-label="${esc(t('nextMonth'))}">${ICON.forward}</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <p class="cal-hint">${esc(t('calendarHint'))}</p>
     </section>
     <section class="pair">
       <article class="card stats" id="stats"></article>
@@ -384,6 +406,7 @@ function render(flashId = null) {
   renderHero(m);
   renderPeople();
   renderSky(flashId);
+  renderCalendar(m);
   renderStats(m);
   renderKhatma(m);
   renderBadges(m);
@@ -409,9 +432,13 @@ function timeLeft() {
 
 function renderHero(m) {
   const s = statsOf(m);
+  // Until today is answered, the star is only a picture: the answer is the question under it.
   const btn = $('#checkin');
   btn.classList.toggle('is-done', s.readToday);
-  btn.setAttribute('aria-pressed', String(s.readToday));
+  btn.classList.toggle('is-idle', !s.readToday);
+  btn.tabIndex = s.readToday ? 0 : -1;
+  btn.setAttribute('aria-hidden', String(!s.readToday));
+  $('#ask').hidden = s.readToday;
   // The ring fills towards the next milestone, and shows full on the day a milestone is reached.
   const progress = s.readToday && L.MILESTONES.includes(s.current) ? 1 : L.milestoneProgress(s.current);
   const ring = $('#ring');
@@ -423,7 +450,7 @@ function renderHero(m) {
   const pages = m.days[state.today];
   const sub = $('#hero-sub');
   if (s.readToday) sub.textContent = pages > 0 ? t('pagesToday', { n: pages }) : t('readToday');
-  else sub.textContent = s.total === 0 ? t('tapAfter') : t('endsIn', { time: timeLeft() });
+  else sub.textContent = t('endsIn', { time: timeLeft() });
   sub.classList.toggle('urgent', !s.readToday && s.current > 0 && msLeft() < 4 * 3600e3);
   const yesterday = L.addDays(state.today, -1);
   $('#yesterday').hidden = m.days[yesterday] !== undefined || m.days[L.addDays(state.today, -2)] === undefined;
@@ -581,11 +608,11 @@ function countUp(el, from, to) {
   setTimeout(tick, 420);
 }
 
-function pagesPicker(selected) {
+function pagesPicker(selected, day = state.today) {
   const options = [1, 2, 5, 10, 20];
   const custom = selected > 0 && !options.includes(selected) ? selected : '';
-  return `<div class="pages">
-    <p class="pages-q">${esc(t('howMuch'))} <span>(${esc(t('optional'))})</span></p>
+  return `<div class="pages" data-day="${day}">
+    <p class="pages-q">${esc(t(day === state.today ? 'howMuch' : 'howMuchThen'))} <span>(${esc(t('optional'))})</span></p>
     <div class="chips" role="group" aria-label="${esc(t('pagesUnit'))}">
       ${options.map((p) => `<button type="button" class="chip${selected === p ? ' on' : ''}" data-pages="${p}" aria-pressed="${selected === p}">${p === 20 ? esc(t('juz')) : p}</button>`).join('')}
       <input class="chip-input${custom ? ' on' : ''}" id="pages-other" type="number" inputmode="numeric" min="1" max="604" placeholder="${esc(t('other'))}" value="${custom}" aria-label="${esc(t('other'))}">
@@ -594,13 +621,13 @@ function pagesPicker(selected) {
   </div>`;
 }
 
-function choosePages(pages) {
+function choosePages(pages, day) {
   const m = me();
-  if (!m || m.days[state.today] === undefined) return;
-  const current = m.days[state.today];
+  if (!m || m.days[day] === undefined) return;
+  const current = m.days[day];
   const next = current === pages ? 0 : pages;
   const before = L.khatma(m.days);
-  setMyDay(state.today, next);
+  setMyDay(day, next);
   const after = L.khatma(me().days);
   for (const chip of sheet.querySelectorAll('.chip')) {
     const on = Number(chip.dataset.pages) === next;
@@ -630,13 +657,143 @@ function openToday() {
   </div>`);
 }
 
-function markYesterday() {
-  const yesterday = L.addDays(state.today, -1);
-  setMyDay(yesterday, 0);
-  const rect = $('#checkin').getBoundingClientRect();
-  fx.burst(rect.left + rect.width / 2, rect.top + rect.height / 2, { count: 60, power: 0.8 });
-  if (settings.sound) fx.chime('soft');
-  toast(t('yesterdaySaved'));
+// ---------- past days: the calendar and the question ----------
+
+const CONSISTENCY = REMINDERS.find((r) => r.src.en === 'Al-Bukhari and Muslim');
+
+function dateLocale() {
+  return lang() === 'ar' ? 'ar-EG-u-nu-latn' : 'en-GB';
+}
+
+function utcDate(day) {
+  const [y, m, d] = day.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d));
+}
+
+function longDate(day) {
+  return new Intl.DateTimeFormat(dateLocale(), { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' }).format(utcDate(day));
+}
+
+function askText(day) {
+  if (day === state.today) return t('askToday');
+  if (day === L.addDays(state.today, -1)) return t('askYesterday');
+  return t('askDay', { date: longDate(day) });
+}
+
+function readText(day) {
+  if (day === L.addDays(state.today, -1)) return t('readYesterday');
+  return t('readOn', { date: longDate(day) });
+}
+
+/** The first day of the week where the phone is set up: Saturday in Egypt, Sunday or Monday elsewhere. */
+function weekStart() {
+  try {
+    const locale = new Intl.Locale(navigator.language || 'en');
+    const info = locale.getWeekInfo?.() ?? locale.weekInfo;
+    if (info?.firstDay) return info.firstDay % 7;
+  } catch {}
+  return lang() === 'ar' ? 6 : 0;
+}
+
+/** The Hijri months a Gregorian month spans, for example "Jumada I – Jumada II 1448 AH". */
+function hijriRange(first, last) {
+  try {
+    const f = new Intl.DateTimeFormat(`${lang() === 'ar' ? 'ar-EG' : 'en'}-u-ca-islamic-umalqura-nu-latn`, { month: 'long', year: 'numeric', timeZone: 'UTC' });
+    if (f.format(first) === f.format(last)) return f.format(first);
+    return f.formatRange ? f.formatRange(first, last) : `${f.format(first)} – ${f.format(last)}`;
+  } catch {
+    return '';
+  }
+}
+
+function renderCalendar(m) {
+  const month = state.calMonth;
+  const thisMonth = L.monthOf(state.today);
+  const first = utcDate(`${month}-01`);
+  const length = L.daysInMonth(month);
+  $('#cal-month').textContent = new Intl.DateTimeFormat(dateLocale(), { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(first);
+  $('#cal-hijri').textContent = hijriRange(first, utcDate(`${month}-${String(length).padStart(2, '0')}`));
+  $('[data-act="cal-next"]').disabled = month >= thisMonth;
+  $('[data-act="cal-prev"]').disabled = month <= L.addMonths(thisMonth, -24);
+  const start = weekStart();
+  const weekday = new Intl.DateTimeFormat(dateLocale(), { weekday: lang() === 'ar' ? 'narrow' : 'short', timeZone: 'UTC' });
+  const heads = Array.from({ length: 7 }, (_, i) => `<span class="cal-wd">${esc(weekday.format(new Date(Date.UTC(2024, 0, 7 + ((start + i) % 7)))))}</span>`);
+  const lead = (L.weekday(`${month}-01`) - start + 7) % 7;
+  const cells = Array.from({ length: lead }, () => '<span></span>');
+  for (let d = 1; d <= length; d++) {
+    const day = `${month}-${String(d).padStart(2, '0')}`;
+    const read = m.days[day] !== undefined;
+    const label = read ? `${longDate(day)}, ${t('readMark')}` : longDate(day);
+    cells.push(`<button type="button" class="cal-day${read ? ' on' : ''}${day === state.today ? ' today' : ''}" data-act="day" data-day="${day}"${day > state.today ? ' disabled' : ''} aria-label="${esc(label)}">${d}</button>`);
+  }
+  $('#cal-grid').innerHTML = heads.join('') + cells.join('');
+}
+
+function openDay(day) {
+  const m = me();
+  if (!m || !L.isDay(day) || day > state.today) return;
+  if (m.days[day] === undefined) openAsk(day);
+  else if (day === state.today) openToday();
+  else openDayRead(day);
+}
+
+function openAsk(day) {
+  openSheet(`<div class="ask-sheet">
+    <svg viewBox="-60 -60 120 120" class="logo-rub small" aria-hidden="true"><path d="${RUB}"/><path class="inner" d="${RUB_INNER}"/></svg>
+    <h2>${esc(askText(day))}</h2>
+    <div class="ask-btns">
+      <button type="button" class="btn primary" data-act="ask-yes" data-day="${day}">${esc(t('yesWallahi'))}</button>
+      <button type="button" class="btn ghost" data-act="ask-no" data-day="${day}">${esc(t('no'))}</button>
+    </div>
+  </div>`);
+}
+
+function openNotYet() {
+  const s = statsOf(me());
+  openSheet(`<div class="notyet">
+    <svg viewBox="-60 -60 120 120" class="logo-rub small" aria-hidden="true"><path d="${RUB}"/><path class="inner" d="${RUB_INNER}"/></svg>
+    <h2>${esc(t('notYetTitle'))}</h2>
+    <p>${esc(t('notYetLine'))}</p>
+    ${s.current > 0 ? `<p class="gold">${esc(t('notYetStreak', { n: s.current }))}</p>` : ''}
+    ${CONSISTENCY ? quote(CONSISTENCY, 'reward') : ''}
+    <p class="muted small">${esc(t('endsIn', { time: timeLeft() }))}</p>
+    <button type="button" class="btn primary wide" data-act="close">${esc(t('willRead'))}</button>
+  </div>`);
+}
+
+/** A past day answered with Yes: save it, show what it did to the streak, and ask for the pages. */
+function markPastDay(day, from) {
+  const m = me();
+  if (!m || day >= state.today) return;
+  const before = statsOf(m);
+  setMyDay(day, 0);
+  const after = statsOf(me());
+  const badge = L.MILESTONES.filter((d) => before.best < d && after.best >= d).pop();
+  const rect = from.getBoundingClientRect();
+  fx.burst(rect.left + rect.width / 2, rect.top + rect.height / 2, { count: badge ? 140 : 70, power: badge ? 1.2 : 0.85 });
+  if (settings.sound) {
+    fx.chime(badge ? 'milestone' : 'soft');
+    fx.buzz([16, 30, 20]);
+  }
+  openSheet(`<div class="ask-sheet">
+    ${badge ? `<div class="c-badge">${emblem(badge, true)}</div><p class="c-milestone">${esc(t('newBadge', { name: badgeName(badge) }))}</p>` : ''}
+    <p class="c-kicker">${esc(t('accepted'))}</p>
+    <h2>${esc(t('daySaved'))}</h2>
+    ${after.current !== before.current ? `<p class="muted">${esc(t('streakNow', { n: after.current }))}</p>` : ''}
+    ${pagesPicker(0, day)}
+    <button type="button" class="btn primary wide" data-act="close">${esc(t('done'))}</button>
+  </div>`);
+}
+
+function openDayRead(day) {
+  const m = me();
+  openSheet(`<div class="today-sheet">
+    <p class="c-kicker">${esc(t('accepted'))}</p>
+    <h2>${esc(readText(day))}</h2>
+    ${pagesPicker(m.days[day] || 0, day)}
+    <button type="button" class="btn primary wide" data-act="close">${esc(t('done'))}</button>
+    <button type="button" class="link danger" data-act="remove-day" data-day="${day}">${esc(t('removeDay'))}</button>
+  </div>`);
 }
 
 // ---------- sheets ----------
@@ -821,8 +978,16 @@ app.addEventListener('click', (e) => {
   const el = e.target.closest('[data-act]');
   if (!el) return;
   const act = el.dataset.act;
-  if (act === 'checkin') checkIn();
-  else if (act === 'yesterday') markYesterday();
+  if (act === 'checkin') {
+    if (me()?.days[state.today] !== undefined) openToday();
+  } else if (act === 'yes') checkIn();
+  else if (act === 'no') openNotYet();
+  else if (act === 'yesterday') openAsk(L.addDays(state.today, -1));
+  else if (act === 'day') openDay(el.dataset.day);
+  else if (act === 'cal-prev' || act === 'cal-next') {
+    state.calMonth = L.addMonths(state.calMonth, act === 'cal-prev' ? -1 : 1);
+    renderCalendar(me());
+  }
   else if (act === 'settings') openSettings();
   else if (act === 'invite') openInvite();
   else if (act === 'nudge') nudge(el.dataset.id);
@@ -839,13 +1004,24 @@ app.addEventListener('click', (e) => {
 sheet.addEventListener('click', (e) => {
   const chip = e.target.closest('[data-pages]');
   if (chip) {
-    choosePages(Number(chip.dataset.pages));
+    choosePages(Number(chip.dataset.pages), chip.closest('.pages').dataset.day);
     return;
   }
   const el = e.target.closest('[data-act]');
   if (!el) return;
   const act = el.dataset.act;
   if (act === 'close') closeSheet();
+  else if (act === 'ask-yes') {
+    if (el.dataset.day === state.today) checkIn();
+    else markPastDay(el.dataset.day, el);
+  } else if (act === 'ask-no') {
+    if (el.dataset.day === state.today) openNotYet();
+    else closeSheet();
+  } else if (act === 'remove-day') armTwice(el, t('removeConfirm'), () => {
+    clearMyDay(el.dataset.day);
+    closeSheet();
+    toast(t('dayRemoved'));
+  });
   else if (act === 'undo') armTwice(el, t('undoConfirm'), () => {
     clearMyDay(state.today);
     closeSheet();
@@ -875,7 +1051,7 @@ sheet.addEventListener('change', (e) => {
   if (e.target.id !== 'pages-other') return;
   const pages = Math.round(Number(e.target.value));
   if (pages >= 1 && pages <= 604) {
-    choosePages(pages);
+    choosePages(pages, e.target.closest('.pages').dataset.day);
     e.target.value = pages;
     e.target.classList.add('on');
   }

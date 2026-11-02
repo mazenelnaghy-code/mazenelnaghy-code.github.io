@@ -35,6 +35,22 @@ export function weekday(day) {
   return new Date(toUTC(day)).getUTCDay();
 }
 
+/** Months are 'YYYY-MM' strings. */
+export function monthOf(day) {
+  return day.slice(0, 7);
+}
+
+export function addMonths(month, n) {
+  const [y, m] = month.split('-').map(Number);
+  const t = new Date(Date.UTC(y, m - 1 + n, 1));
+  return `${t.getUTCFullYear()}-${pad(t.getUTCMonth() + 1)}`;
+}
+
+export function daysInMonth(month) {
+  const [y, m] = month.split('-').map(Number);
+  return new Date(Date.UTC(y, m, 0)).getUTCDate();
+}
+
 /** The moment the reading day `today` ends: 3 AM on the next calendar day, local time. */
 export function dayEndsAt(today) {
   const [y, m, d] = today.split('-').map(Number);

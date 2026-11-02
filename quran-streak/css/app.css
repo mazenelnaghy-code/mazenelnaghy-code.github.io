@@ -195,6 +195,7 @@ input.shake { animation: shake 0.4s; border-color: var(--danger); }
 .rub-btn.is-done .rub-core { fill: #101a42; stroke: var(--gold-hi); }
 .rub-btn.is-done .rub-check { stroke-dashoffset: 0; }
 
+.rub-btn.is-idle { pointer-events: none; cursor: default; }
 .streak { display: grid; justify-items: center; line-height: 1; }
 .streak-num {
   font: 600 76px/1 var(--ui);
@@ -209,6 +210,51 @@ input.shake { animation: shake 0.4s; border-color: var(--danger); }
 .hero-sub { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
 .hero-sub.urgent { color: #f5b97a; }
 .yesterday { margin: 0; font-size: 14px; color: var(--muted); }
+
+/* ---------- the daily question ---------- */
+.ask { display: grid; justify-items: center; gap: 12px; width: 100%; margin-top: 14px; }
+.ask-q { margin: 0; font: 600 21px/1.35 var(--ui); text-wrap: balance; }
+.ask-btns { display: grid; grid-template-columns: 1.7fr 1fr; gap: 10px; width: min(100%, 340px); }
+.ask-btns .btn { min-height: 54px; font-size: 17px; }
+.ask-sheet, .notyet { display: grid; gap: 12px; text-align: center; }
+.ask-sheet .ask-btns { justify-self: center; margin-top: 4px; }
+.ask-sheet h2, .notyet h2 { text-wrap: balance; }
+.notyet > p { margin: 0; }
+
+/* ---------- the calendar ---------- */
+.cal-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 14px; }
+.cal-title { min-width: 0; }
+.cal-hijri { margin: 3px 0 0; font-size: 12.5px; color: var(--muted); }
+.cal-nav { display: flex; align-items: center; gap: 6px; }
+.cal-month { min-width: 8.5em; text-align: center; font-weight: 500; font-size: 14.5px; }
+.icon-btn.small { width: 38px; height: 38px; border-radius: 12px; }
+.icon-btn:disabled { opacity: 0.3; cursor: default; }
+[dir='rtl'] .flip-rtl { transform: scaleX(-1); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px 4px; }
+.cal-wd { text-align: center; font-size: 11.5px; color: var(--muted); padding-bottom: 2px; }
+.cal-day {
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 44px;
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--parchment);
+  font: 500 14px/1 var(--ui);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.12s;
+}
+.cal-day:active { transform: scale(0.92); }
+.cal-day.on { background: radial-gradient(circle at 35% 30%, #fff3cf, var(--gold) 62%, var(--gold-lo)); color: var(--ink); font-weight: 600; box-shadow: 0 0 10px rgba(232, 184, 74, 0.35); }
+.cal-day.today { border-color: var(--gold); }
+.cal-day.today.on { box-shadow: 0 0 0 2px #0d1431, 0 0 0 3.5px var(--gold-hi), 0 0 14px rgba(232, 184, 74, 0.5); }
+.cal-day:disabled { opacity: 0.22; cursor: default; background: none; }
+.cal-hint { margin: 12px 2px 0; font-size: 13px; color: var(--muted); }
 
 /* ---------- cards ---------- */
 .card {
