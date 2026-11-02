@@ -1,0 +1,40 @@
+# Noor's code lives in mazenelnaghy-code/quran-streak. This copies its site files into quran-streak/ here, so the
+# app is served at mazenelnaghy-code.github.io/quran-streak/ and stays up to date with that repository.
+name: Sync Noor
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: sync-noor
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5
+        with:
+          repository: mazenelnaghy-code/quran-streak
+          path: noor-source
+      - name: Copy the site files
+        run: |
+          rm -rf quran-streak
+          mkdir quran-streak
+          cp -r noor-source/{index.html,config.js,sw.js,manifest.webmanifest,css,js,vendor,icons} quran-streak/
+          rm -rf noor-source
+      - name: Commit if anything changed
+        run: |
+          git add -A quran-streak
+          if git diff --cached --quiet; then
+            echo "Noor is already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync Noor from quran-streak"
+          git push

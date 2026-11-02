@@ -1,0 +1,248 @@
+// Interface text in English and Arabic.
+
+/** Arabic counted nouns: 1 يوم, 2 يومان, 3–10 أيام, 11–99 يومًا, 100 يوم. */
+export function arCount(n, one, two, few, many) {
+  if (n === 1) return one;
+  if (n === 2) return two;
+  const r = n % 100;
+  if (r >= 3 && r <= 10) return few;
+  if (r >= 11) return many;
+  return one;
+}
+
+const arDays = (n) => arCount(n, 'يوم', 'يومان', 'أيام', 'يومًا');
+
+const STRINGS = {
+  en: {
+    tagline: 'Read Quran every day, together.',
+    intro: 'Read on your own, then tap the star. Every day you read keeps your streak alive and lights a star in your sky.',
+    yourName: 'Your name',
+    start: 'Start',
+    startSolo: 'Just me on this phone',
+    invitedBy: '{name} invited you to read Quran every day together.',
+    join: 'Join',
+    alreadyIn: 'Already in this circle on another phone?',
+    iAm: "I'm {name}",
+    badLink: "This invite link doesn't work. Ask your friend to send it again, or start your own.",
+    startOwn: 'Start my own',
+    noSharing: "Sharing isn't switched on for this site yet, so Noor keeps your streak on this phone for now.",
+    welcomeBack: 'Welcome back, {name}',
+    tapAfter: 'Tap the star after you read today',
+    keep: ({ n }) => `Read today to keep your ${n}-day streak`,
+    startToday: 'Start your streak today',
+    accepted: 'May Allah accept it from you',
+    readToday: 'You read today',
+    endsIn: 'Today ends in {time}',
+    time: ({ h, m }) => (h > 0 ? `${h}h ${m}m` : `${m}m`),
+    daysInRow: ({ n }) => (n === 1 ? 'day in a row' : 'days in a row'),
+    pagesToday: ({ n }) => (n === 1 ? '1 page today' : `${n} pages today`),
+    markYesterday: 'Read yesterday but forgot to tap?',
+    markYesterdayBtn: 'Mark yesterday',
+    yesterdaySaved: 'Yesterday is saved. Your streak is back.',
+    you: 'you',
+    readTodayShort: 'Read today',
+    notYet: 'Not yet today',
+    remind: 'Remind',
+    togetherLabel: 'days in a row you all read',
+    togetherLabel2: 'days in a row you both read',
+    togetherZero: 'Read on the same day to start a shared streak.',
+    togetherTitle: 'Together',
+    friendRead: '{name} read today ✨',
+    alsoRead: '{name} read today too',
+    skyMine: 'Your sky',
+    skyOurs: 'Our sky',
+    skyLine: 'Every day you read lights a star.',
+    stars: ({ n }) => (n === 1 ? '1 star' : `${n} stars`),
+    khatma: 'Khatma',
+    khatmaLine: ({ p }) => `${p} of 604 pages`,
+    khatmaDone: ({ n }) => (n === 1 ? '1 khatma completed' : `${n} khatmas completed`),
+    khatmaHint: 'Choose how many pages you read when you tap the star, and Noor will follow your khatma here.',
+    khatmaComplete: 'Khatma complete! May Allah accept it.',
+    badges: 'Milestones',
+    earned: 'Earned',
+    toGo: ({ n }) => (n === 1 ? '1 day to go' : `${n} days to go`),
+    best: 'Best: {n}',
+    newBadge: 'New milestone: {name}',
+    againBadge: '{name}, once again',
+    howMuch: 'How much did you read?',
+    optional: 'optional',
+    pagesUnit: 'pages',
+    juz: "Juz'",
+    done: 'Done',
+    todayTitle: 'Today',
+    undo: "Undo today's check-in",
+    undoConfirm: 'Tap again to undo',
+    invite: 'Invite your friend',
+    inviteLine: 'Send this link to your friend. When they join, you will see each other’s streaks here.',
+    inviteText: 'Join me on Noor: we read Quran every day and keep a streak together. {url}',
+    share: 'Share',
+    copy: 'Copy link',
+    copied: 'Link copied',
+    nudgeText: ({ name, n, url }) =>
+      n > 0
+        ? `${name}, I read my Quran today ✨ Our shared streak is ${n} days, don't break it! ${url}`
+        : `${name}, I read my Quran today ✨ Your turn! ${url}`,
+    settings: 'Settings',
+    name: 'Name',
+    save: 'Save',
+    saved: 'Saved',
+    language: 'Language',
+    sound: 'Sound and vibration',
+    on: 'On',
+    off: 'Off',
+    anotherPhone: 'Use Noor on another phone',
+    anotherPhoneLine: 'Open this link on your other phone to continue as yourself. Keep it to yourself.',
+    startShared: 'Read with a friend',
+    startSharedLine: 'Start a circle and send your friend the link to see each other’s streaks. Your days so far come with you.',
+    dayNote: 'A new day starts at 3 AM, so reading after midnight counts for the day before.',
+    reset: 'Remove Noor from this phone',
+    resetConfirm: 'Tap again to remove. A shared streak stays online.',
+    syncError: "Can't reach the shared streak right now. Your check-in is saved on this phone and will sync when you're back online.",
+    offlineCreate: "Couldn't reach the internet, so Noor started on this phone only. You can invite your friend later from Settings.",
+    close: 'Close',
+    loading: 'Loading…',
+    settingsLabel: 'Open settings',
+    checkLabel: 'I read today',
+    statsTitle: 'Your record',
+    demoNote: 'A demo with example days. Nothing you tap here is saved.',
+    demoExit: 'Start for real',
+    demoMe: 'You',
+    demoFriend: 'Your friend',
+    install: 'Add Noor to your home screen',
+    installLine: 'Open Noor like an app, straight from your home screen.',
+    installHow: 'On iPhone: tap Share, then Add to Home Screen. On Android: open the Chrome menu, then Add to Home screen or Install app.',
+    installBtn: 'Add to home screen',
+    daysRead: 'days read',
+    bestStreak: 'best streak',
+    other: 'Other',
+    badgeNames: { 3: 'Spark', 7: 'One week', 14: 'Two weeks', 30: 'One month', 40: 'Forty days', 60: 'Two months', 100: 'Hundred days', 200: 'Two hundred days', 365: 'One year' },
+  },
+  ar: {
+    tagline: 'اقرأ القرآن كل يوم، معًا.',
+    intro: 'اقرأ وردك بنفسك، ثم اضغط على النجمة. كل يوم تقرأ فيه يحافظ على سلسلتك ويضيء نجمة في سمائك.',
+    yourName: 'اسمك',
+    start: 'ابدأ',
+    startSolo: 'أنا فقط على هذا الهاتف',
+    invitedBy: '{name} يدعوك لقراءة القرآن كل يوم معًا.',
+    join: 'انضم',
+    alreadyIn: 'أنت في هذه الدائرة على هاتف آخر؟',
+    iAm: 'أنا {name}',
+    badLink: 'رابط الدعوة هذا لا يعمل. اطلب من صديقك إرساله مرة أخرى، أو ابدأ دائرتك.',
+    startOwn: 'ابدأ دائرتي',
+    noSharing: 'المشاركة غير مفعّلة على الموقع بعد، لذلك يحفظ نور سلسلتك على هذا الهاتف الآن.',
+    welcomeBack: 'أهلًا بعودتك يا {name}',
+    tapAfter: 'اضغط على النجمة بعد قراءتك اليوم',
+    keep: ({ n }) => `اقرأ اليوم لتحافظ على سلسلتك (${n === 1 ? 'يوم واحد' : n === 2 ? 'يومان' : `${n} ${arDays(n)}`})`,
+    startToday: 'ابدأ سلسلتك اليوم',
+    accepted: 'تقبّل الله منك',
+    readToday: 'قرأت اليوم',
+    endsIn: 'ينتهي اليوم بعد {time}',
+    time: ({ h, m }) => (h > 0 ? `${h} س ${m} د` : `${m} د`),
+    daysInRow: ({ n }) => `${arDays(n)} على التوالي`,
+    pagesToday: ({ n }) => (n === 1 ? 'صفحة واحدة اليوم' : n === 2 ? 'صفحتان اليوم' : `${n} ${arCount(n, 'صفحة', 'صفحتان', 'صفحات', 'صفحة')} اليوم`),
+    markYesterday: 'قرأت أمس ونسيت أن تضغط؟',
+    markYesterdayBtn: 'سجّل الأمس',
+    yesterdaySaved: 'تم تسجيل الأمس، وعادت سلسلتك.',
+    you: 'أنت',
+    readTodayShort: 'تمت القراءة اليوم',
+    notYet: 'لم تتم القراءة بعد',
+    remind: 'ذكّر',
+    togetherLabel: 'أيام القراءة المشتركة على التوالي',
+    togetherLabel2: 'أيام قرأتما فيها معًا على التوالي',
+    togetherZero: 'اقرؤوا في اليوم نفسه لتبدأ سلسلتكم المشتركة.',
+    togetherTitle: 'معًا',
+    friendRead: '{name}: تمت القراءة اليوم ✨',
+    alsoRead: '{name}: تمت القراءة اليوم أيضًا',
+    skyMine: 'سماؤك',
+    skyOurs: 'سماؤنا',
+    skyLine: 'كل يوم تقرأ فيه يضيء نجمة.',
+    stars: ({ n }) => `نجوم مضيئة: ${n}`,
+    khatma: 'الختمة',
+    khatmaLine: ({ p }) => `${p} من 604 صفحات`,
+    khatmaDone: ({ n }) => `ختمات مكتملة: ${n}`,
+    khatmaHint: 'اختر عدد الصفحات التي قرأتها عند الضغط على النجمة، وسيتابع نور ختمتك هنا.',
+    khatmaComplete: 'تمت الختمة! تقبّل الله منك.',
+    badges: 'الأوسمة',
+    earned: 'تم',
+    toGo: ({ n }) => `المتبقي: ${n}`,
+    best: 'الأفضل: {n}',
+    newBadge: 'وسام جديد: {name}',
+    againBadge: '{name} مرة أخرى',
+    howMuch: 'كم قرأت اليوم؟',
+    optional: 'اختياري',
+    pagesUnit: 'صفحات',
+    juz: 'جزء',
+    done: 'تم',
+    todayTitle: 'اليوم',
+    undo: 'إلغاء تسجيل اليوم',
+    undoConfirm: 'اضغط مرة أخرى للإلغاء',
+    invite: 'ادعُ صديقك',
+    inviteLine: 'أرسل هذا الرابط إلى صديقك. عندما ينضم، سيرى كل منكما سلسلة الآخر هنا.',
+    inviteText: 'انضم إليّ على نور: نقرأ القرآن كل يوم ونحافظ على سلسلتنا معًا. {url}',
+    share: 'مشاركة',
+    copy: 'نسخ الرابط',
+    copied: 'تم نسخ الرابط',
+    nudgeText: ({ name, n, url }) =>
+      n > 0
+        ? `${name}، قرأت وردي اليوم ✨ سلسلتنا المشتركة ${n}، لا تقطعها! ${url}`
+        : `${name}، قرأت وردي اليوم ✨ دورك الآن! ${url}`,
+    settings: 'الإعدادات',
+    name: 'الاسم',
+    save: 'حفظ',
+    saved: 'تم الحفظ',
+    language: 'اللغة',
+    sound: 'الصوت والاهتزاز',
+    on: 'تشغيل',
+    off: 'إيقاف',
+    anotherPhone: 'استخدم نور على هاتف آخر',
+    anotherPhoneLine: 'افتح هذا الرابط على هاتفك الآخر لتكمل باسمك. لا تشاركه مع أحد.',
+    startShared: 'اقرأ مع صديق',
+    startSharedLine: 'ابدأ دائرة وأرسل الرابط لصديقك، ليرى كل منكما سلسلة الآخر. أيامك السابقة تنتقل معك.',
+    dayNote: 'يبدأ اليوم الجديد الساعة 3 فجرًا، لذلك تُحسب القراءة بعد منتصف الليل لليوم السابق.',
+    reset: 'إزالة نور من هذا الهاتف',
+    resetConfirm: 'اضغط مرة أخرى للإزالة. السلسلة المشتركة تبقى محفوظة على الإنترنت.',
+    syncError: 'تعذر الاتصال بالسلسلة المشتركة الآن. تسجيلك محفوظ على هذا الهاتف وسيُرفع عند عودة الاتصال.',
+    offlineCreate: 'تعذر الاتصال بالإنترنت، فبدأ نور على هذا الهاتف فقط. يمكنك دعوة صديقك لاحقًا من الإعدادات.',
+    close: 'إغلاق',
+    loading: 'جارٍ التحميل…',
+    settingsLabel: 'فتح الإعدادات',
+    checkLabel: 'قرأت اليوم',
+    statsTitle: 'سجلّك',
+    demoNote: 'عرض تجريبي بأيام افتراضية. لا يُحفظ شيء هنا.',
+    demoExit: 'ابدأ فعليًا',
+    demoMe: 'أنت',
+    demoFriend: 'صديقك',
+    install: 'أضف نور إلى شاشتك الرئيسية',
+    installLine: 'افتح نور كتطبيق، مباشرة من شاشتك الرئيسية.',
+    installHow: 'على الآيفون: اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية». على أندرويد: افتح قائمة كروم ثم «إضافة إلى الشاشة الرئيسية» أو «تثبيت التطبيق».',
+    installBtn: 'أضف إلى الشاشة الرئيسية',
+    daysRead: 'أيام القراءة',
+    bestStreak: 'أطول سلسلة',
+    other: 'عدد آخر',
+    badgeNames: { 3: 'شرارة', 7: 'أسبوع', 14: 'أسبوعان', 30: 'شهر', 40: 'أربعون يومًا', 60: 'شهران', 100: 'مئة يوم', 200: 'مئتا يوم', 365: 'سنة كاملة' },
+  },
+};
+
+let current = 'en';
+
+export function setLang(lang) {
+  current = STRINGS[lang] ? lang : 'en';
+  if (typeof document !== 'undefined') {
+    document.documentElement.lang = current;
+    document.documentElement.dir = current === 'ar' ? 'rtl' : 'ltr';
+  }
+}
+
+export function lang() {
+  return current;
+}
+
+export function t(key, vars = {}) {
+  const s = STRINGS[current][key] ?? STRINGS.en[key] ?? key;
+  if (typeof s === 'function') return s(vars);
+  return String(s).replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
+}
+
+export function badgeName(days) {
+  return STRINGS[current].badgeNames[days];
+}
